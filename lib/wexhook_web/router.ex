@@ -17,7 +17,7 @@ defmodule WexhookWeb.Router do
   scope "/", WexhookWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", HomeLive
   end
 
   # Other scopes may use custom stacks.
