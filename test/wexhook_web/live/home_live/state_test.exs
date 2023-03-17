@@ -3,6 +3,8 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   alias WexhookWeb.HomeLive.State
 
+  @base_path Application.compile_env!(:wexhook, :base_path)
+
   describe "new/0" do
     test "returns a new state" do
       assert %State{} = State.new()
@@ -21,9 +23,10 @@ defmodule WexhookWeb.HomeLive.StateTest do
   describe "set_public_path/2" do
     test "sets the public path" do
       state = %State{}
-      path = "/path/to/public"
+      path = "path/to/public"
+      url = @base_path <> "/" <> path
 
-      assert %State{public_path: ^path} = State.set_public_path(state, path)
+      assert %State{public_path: ^url} = State.set_public_path(state, path)
     end
   end
 end

@@ -20,10 +20,11 @@ defmodule WexhookWeb.Router do
     live "/", HomeLive
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", WexhookWeb do
-  #   pipe_through :api
-  # end
+  scope "/hook", WexhookWeb do
+    pipe_through :api
+
+    post "/:id", HookController, :hook
+  end
 
   # Enable LiveDashboard in development
   if Application.compile_env(:wexhook, :dev_routes) do
