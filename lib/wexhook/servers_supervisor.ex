@@ -1,5 +1,5 @@
 defmodule Wexhook.ServersSupervisor do
-  alias Wexhook.Server
+  alias Wexhook.Server.InMemory, as: Server
 
   use DynamicSupervisor
 
@@ -18,7 +18,7 @@ defmodule Wexhook.ServersSupervisor do
   end
 
   def delete_servers do
-    servers = get_servers()
+    servers = DynamicSupervisor.which_children(__MODULE__)
 
     Enum.each(servers, fn {_, pid, _, _} ->
       do_delete_server(pid)

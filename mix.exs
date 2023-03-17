@@ -11,6 +11,7 @@ defmodule Wexhook.MixProject do
       test_coverage: [
         ignore_modules: [
           Wexhook.Application,
+          Wexhook.Server,
           WexhookWeb.CoreComponents,
           WexhookWeb.ErrorHTML,
           WexhookWeb.Gettext,

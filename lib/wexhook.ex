@@ -9,7 +9,7 @@ defmodule Wexhook do
   @type request :: Request.t()
 
   @spec new_server(public_path) :: {:ok, pid}
-  def new_server(public_path) do
+  def new_server(public_path \\ random_public_path()) do
     ServersSupervisor.start_server(public_path)
   end
 
@@ -61,5 +61,9 @@ defmodule Wexhook do
   @spec get_server_public_path(pid) :: public_path
   def get_server_public_path(pid) do
     Server.get_public_path(pid)
+  end
+
+  defp random_public_path do
+    Base.encode32(:crypto.strong_rand_bytes(10))
   end
 end

@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+# Configure server adapter
+config :wexhook, Wexhook.Server, adapter: Wexhook.Server.InMemory
+
 # Configures the endpoint
 config :wexhook, WexhookWeb.Endpoint,
   url: [host: "localhost"],

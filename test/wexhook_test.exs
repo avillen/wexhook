@@ -57,23 +57,6 @@ defmodule WexhookTest do
     end
   end
 
-  describe "get_server/1" do
-    test "on success" do
-      {:ok, pid} = Wexhook.new_server("public")
-
-      assert {_, ^pid, _, _} = Wexhook.get_server(pid)
-    end
-  end
-
-  describe "get_servers/0" do
-    test "on success" do
-      {:ok, _} = Wexhook.new_server("public")
-      {:ok, _} = Wexhook.new_server("public")
-
-      assert length(Wexhook.get_servers()) > 0
-    end
-  end
-
   describe "get_server_count/0" do
     test "on success" do
       {:ok, _} = Wexhook.new_server("public")

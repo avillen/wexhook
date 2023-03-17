@@ -1,8 +1,8 @@
-defmodule Wexhook.Server.StateTest do
+defmodule Wexhook.Server.InMemory.StateTest do
   use ExUnit.Case, async: true
 
   alias Wexhook.Request
-  alias Wexhook.Server.State
+  alias Wexhook.Server.InMemory.State
 
   @public_path "public"
 

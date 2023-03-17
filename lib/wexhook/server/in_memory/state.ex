@@ -1,4 +1,4 @@
-defmodule Wexhook.Server.State do
+defmodule Wexhook.Server.InMemory.State do
   alias Wexhook.Request
 
   @type public_path :: String.t()

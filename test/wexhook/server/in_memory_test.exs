@@ -1,8 +1,8 @@
-defmodule Wexhook.ServerTest do
+defmodule Wexhook.Server.InMemoryTest do
   use ExUnit.Case, async: true
 
   alias Wexhook.Request
-  alias Wexhook.Server
+  alias Wexhook.Server.InMemory, as: Server
 
   describe "start_link/1" do
     test "success" do
