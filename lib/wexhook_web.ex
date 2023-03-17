@@ -17,6 +17,8 @@ defmodule WexhookWeb do
   those modules here.
   """
 
+  def get_state(socket), do: socket.assigns.state
+
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
   def router do
