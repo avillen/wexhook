@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :wexhook, base_path: "http://localhost:4000"
+
 # Configure server adapter
 config :wexhook, Wexhook.Server, adapter: Wexhook.Server.InMemory
 

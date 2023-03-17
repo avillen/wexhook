@@ -8,7 +8,7 @@
 
         <form class="mt-4">
           <div class="flex">
-            <input type="text" value="https://example.com/webhook" id="url" class="focus:border-teal-500 focus:ring focus:ring-teal-500 rounded-l-md sm:text-sm w-full py-2 pl-2 bg-gray-100 border-gray-300" readonly>
+            <input type="text" value={@state.public_path} id="url" class="focus:border-teal-500 focus:ring focus:ring-teal-500 rounded-l-md sm:text-sm w-full py-2 pl-2 bg-gray-100 border-gray-300" readonly>
             <button type="button" id="copy-url" class="hover:bg-teal-700 rounded-r-md sm:text-sm px-4 py-2 font-semibold text-white bg-teal-500">
               Copy URL
             </button>
@@ -22,106 +22,6 @@
 
         <ul class="mt-4">
           <!-- Dummy data, replace with dynamic data -->
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-17T10:24:00.000Z">March 17, 2023 at 10:24am</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-16T15:30:00.000Z">March 16, 2023 at 3:30pm</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-17T10:24:00.000Z">March 17, 2023 at 10:24am</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-16T15:30:00.000Z">March 16, 2023 at 3:30pm</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-17T10:24:00.000Z">March 17, 2023 at 10:24am</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-16T15:30:00.000Z">March 16, 2023 at 3:30pm</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-17T10:24:00.000Z">March 17, 2023 at 10:24am</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-16T15:30:00.000Z">March 16, 2023 at 3:30pm</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-17T10:24:00.000Z">March 17, 2023 at 10:24am</time></p>
-              </div>
-            </div>
-          </li>
-          <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
-            <div class="flex items-center justify-between">
-              <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-              <div class="ml-4">
-                <p class="text-sm font-medium text-gray-900">Webhook received on <time datetime="2023-03-16T15:30:00.000Z">March 16, 2023 at 3:30pm</time></p>
-              </div>
-            </div>
-          </li>
           <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
             <div class="flex items-center justify-between">
               <div class="flex-shrink-0">

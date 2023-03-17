@@ -17,4 +17,13 @@ defmodule WexhookWeb.HomeLive.StateTest do
       assert %State{server_pid: ^pid} = State.set_server_pid(state, pid)
     end
   end
+
+  describe "set_public_path/2" do
+    test "sets the public path" do
+      state = %State{}
+      path = "/path/to/public"
+
+      assert %State{public_path: ^path} = State.set_public_path(state, path)
+    end
+  end
 end

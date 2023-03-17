@@ -13,11 +13,13 @@ defmodule WexhookWeb.HomeLive do
 
   def handle_info(:create_server, socket) do
     {:ok, server_pid} = Wexhook.new_server()
+    public_path = Wexhook.get_server_public_path(server_pid)
 
     state =
       socket
       |> WexhookWeb.get_state()
       |> State.set_server_pid(server_pid)
+      |> State.set_public_path(public_path)
 
     {:noreply, assign(socket, :state, state)}
   end
