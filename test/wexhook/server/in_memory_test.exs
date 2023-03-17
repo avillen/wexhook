@@ -14,7 +14,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "push_request/1" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
 
     assert :ok = Server.push_request(pid, request)
   end
@@ -22,7 +22,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "get_requests/0" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
     Server.push_request(pid, request)
 
     assert [^request] = Server.get_requests(pid)
@@ -31,7 +31,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "get_request/1" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
     Server.push_request(pid, request)
 
     assert ^request = Server.get_request(pid, "id")
@@ -40,7 +40,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "delete_request/1" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
     Server.push_request(pid, request)
 
     assert [] = Server.delete_request(pid, "id")
@@ -49,7 +49,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "delete_requests/0" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
     Server.push_request(pid, request)
 
     assert [] = Server.delete_requests(pid)
@@ -59,7 +59,7 @@ defmodule Wexhook.Server.InMemoryTest do
   test "get_request_count/0" do
     {:ok, pid} = Server.start_link(public_path: "public")
 
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", :get, %{}, "body")
     Server.push_request(pid, request)
 
     assert 1 = Server.get_request_count(pid)

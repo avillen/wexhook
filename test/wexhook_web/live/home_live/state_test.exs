@@ -23,8 +23,8 @@ defmodule WexhookWeb.HomeLive.StateTest do
   describe "set_public_path/2" do
     test "sets the public path" do
       state = %State{}
-      path = "path/to/public"
-      url = @base_path <> "/" <> path
+      path = "/path/to/public"
+      url = @base_path <> path
 
       assert %State{public_path: ^url} = State.set_public_path(state, path)
     end

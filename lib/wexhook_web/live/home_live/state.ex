@@ -28,6 +28,6 @@ defmodule WexhookWeb.HomeLive.State do
 
   @spec set_public_path(t(), public_path) :: t()
   def set_public_path(%__MODULE__{} = state, public_path) do
-    %{state | public_path: @base_path <> "/" <> public_path}
+    %{state | public_path: @base_path <> public_path}
   end
 end

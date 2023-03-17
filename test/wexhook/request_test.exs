@@ -4,12 +4,11 @@ defmodule Wexhook.RequestTest do
   alias Wexhook.Request
 
   test "new/5" do
-    request = Request.new("id", "url", :get, %{}, "body")
+    request = Request.new("id", "GET", [], "body")
 
     assert "id" == request.id
-    assert "url" == request.url
-    assert :get == request.method
-    assert %{} == request.headers
+    assert "GET" == request.method
+    assert [] == request.headers
     assert "body" == request.body
   end
 end
