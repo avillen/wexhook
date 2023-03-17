@@ -63,6 +63,11 @@ defmodule Wexhook do
     Server.get_public_path(pid)
   end
 
+  @spec get_server_by_public_path(public_path) :: pid | nil
+  def get_server_by_public_path(public_path) do
+    ServersSupervisor.get_server_pid_by_public_path(public_path)
+  end
+
   defp random_public_path do
     Base.encode32(:crypto.strong_rand_bytes(10))
   end

@@ -8,7 +8,8 @@ defmodule Wexhook.ServersSupervisor do
   end
 
   def start_server(public_path) do
-    spec = {Server, public_path: public_path}
+    via = {:via, Registry, {Wexhook.Registry, public_path}}
+    spec = {Server, public_path: public_path, name: via}
 
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
@@ -31,6 +32,13 @@ defmodule Wexhook.ServersSupervisor do
     __MODULE__
     |> DynamicSupervisor.which_children()
     |> Enum.count()
+  end
+
+  def get_server_pid_by_public_path(public_path) do
+    case Registry.lookup(Wexhook.Registry, public_path) do
+      [{pid, _}] -> pid
+      _ -> nil
+    end
   end
 
   @impl true

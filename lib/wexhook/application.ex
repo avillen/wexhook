@@ -8,6 +8,7 @@ defmodule Wexhook.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {Registry, keys: :unique, name: Wexhook.Registry},
       {DynamicSupervisor, strategy: :one_for_one, name: Wexhook.ServersSupervisor},
 
       # Start the Telemetry supervisor
