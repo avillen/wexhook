@@ -3,6 +3,8 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   alias WexhookWeb.HomeLive.State
 
+  alias Wexhook.Request
+
   @base_path Application.compile_env!(:wexhook, :base_path)
 
   describe "new/0" do
@@ -13,7 +15,7 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   describe "set_server_pid/2" do
     test "sets the server pid" do
-      state = %State{}
+      state = State.new()
       pid = self()
 
       assert %State{server_pid: ^pid} = State.set_server_pid(state, pid)
@@ -22,11 +24,20 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   describe "set_public_path/2" do
     test "sets the public path" do
-      state = %State{}
+      state = State.new()
       path = "/path/to/public"
       url = @base_path <> path
 
       assert %State{public_path: ^url} = State.set_public_path(state, path)
+    end
+  end
+
+  describe "add_request/2" do
+    test "adds a request to the state" do
+      state = State.new()
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
+
+      assert %State{requests: [^request]} = State.add_request(state, request)
     end
   end
 
@@ -46,6 +57,15 @@ defmodule WexhookWeb.HomeLive.StateTest do
       state = %State{public_path: url}
 
       assert ^url = State.get_public_path(state)
+    end
+  end
+
+  describe "get_requests/1" do
+    test "returns the requests in the state" do
+      state = State.new()
+      request = %{}
+
+      assert [^request] = State.get_requests(State.add_request(state, request))
     end
   end
 end

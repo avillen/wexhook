@@ -11,6 +11,7 @@ defmodule WexhookWeb.HomeLive do
     {:ok, assign(socket, :state, State.new())}
   end
 
+  # Init server handler
   def handle_info(:create_server, socket) do
     {:ok, server_pid} = Wexhook.new_server()
     public_path = Wexhook.get_server_public_path(server_pid)
@@ -24,6 +25,16 @@ defmodule WexhookWeb.HomeLive do
     state
     |> State.get_server_pid()
     |> Wexhook.subscribe_to_server()
+
+    {:noreply, assign(socket, :state, state)}
+  end
+
+  # PubSub :request handler
+  def handle_info({:request, request}, socket) do
+    state =
+      socket
+      |> WexhookWeb.get_state()
+      |> State.add_request(request)
 
     {:noreply, assign(socket, :state, state)}
   end
