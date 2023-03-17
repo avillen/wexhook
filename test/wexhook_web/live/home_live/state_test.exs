@@ -29,4 +29,23 @@ defmodule WexhookWeb.HomeLive.StateTest do
       assert %State{public_path: ^url} = State.set_public_path(state, path)
     end
   end
+
+  describe "get_server_pid/1" do
+    test "returns the server pid" do
+      pid = self()
+      state = %State{server_pid: pid}
+
+      assert ^pid = State.get_server_pid(state)
+    end
+  end
+
+  describe "get_public_path/1" do
+    test "returns the public path" do
+      path = "/path/to/public"
+      url = @base_path <> path
+      state = %State{public_path: url}
+
+      assert ^url = State.get_public_path(state)
+    end
+  end
 end

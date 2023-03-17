@@ -30,4 +30,14 @@ defmodule WexhookWeb.HomeLive.State do
   def set_public_path(%__MODULE__{} = state, public_path) do
     %{state | public_path: @base_path <> public_path}
   end
+
+  @spec get_server_pid(t()) :: pid() | nil
+  def get_server_pid(%__MODULE__{server_pid: server_pid}) do
+    server_pid
+  end
+
+  @spec get_public_path(t()) :: public_path
+  def get_public_path(%__MODULE__{public_path: public_path}) do
+    public_path
+  end
 end

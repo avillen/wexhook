@@ -13,7 +13,12 @@ defmodule WexhookTest do
     test "on success" do
       {:ok, pid} = Wexhook.new_server("public_add_request_on_success")
 
-      assert :ok == Wexhook.add_request(pid, %Wexhook.Request{})
+      Wexhook.subscribe_to_server(pid)
+
+      request = %Wexhook.Request{}
+
+      assert :ok == Wexhook.add_request(pid, request)
+      assert_receive {:request, ^request}
     end
   end
 
@@ -100,6 +105,14 @@ defmodule WexhookTest do
 
       assert "public_get_server_public_path_on_success" ==
                Wexhook.get_server_public_path(pid)
+    end
+  end
+
+  describe "subscribe_to_server/2" do
+    test "on success" do
+      {:ok, pid} = Wexhook.new_server("public_subscribe_to_server_on_success")
+
+      assert :ok == Wexhook.subscribe_to_server(pid)
     end
   end
 end

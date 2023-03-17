@@ -21,6 +21,10 @@ defmodule WexhookWeb.HomeLive do
       |> State.set_server_pid(server_pid)
       |> State.set_public_path(public_path)
 
+    state
+    |> State.get_server_pid()
+    |> Wexhook.subscribe_to_server()
+
     {:noreply, assign(socket, :state, state)}
   end
 

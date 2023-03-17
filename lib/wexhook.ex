@@ -18,6 +18,7 @@ defmodule Wexhook do
   @spec add_request(pid, request) :: :ok
   def add_request(pid, request) do
     Server.push_request(pid, request)
+    Phoenix.PubSub.broadcast(Wexhook.PubSub, topic(pid), {:request, request})
   end
 
   @spec get_requests(pid) :: [request]
@@ -68,5 +69,14 @@ defmodule Wexhook do
   @spec get_server_by_public_path(public_path) :: pid | nil
   def get_server_by_public_path(public_path) do
     ServersSupervisor.get_server_pid_by_public_path(public_path)
+  end
+
+  @spec subscribe_to_server(pid) :: :ok
+  def subscribe_to_server(pid) do
+    Phoenix.PubSub.subscribe(Wexhook.PubSub, topic(pid))
+  end
+
+  defp topic(pid) do
+    get_server_public_path(pid)
   end
 end
