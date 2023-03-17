@@ -19,7 +19,7 @@ defmodule WexhookWeb.HookController do
 
         Wexhook.add_request(
           pid,
-          Request.new(id, method, headers, body)
+          Request.new(id, method, headers, body, DateTime.utc_now())
         )
 
         conn

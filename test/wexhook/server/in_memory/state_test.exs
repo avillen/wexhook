@@ -18,7 +18,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "add_request/2" do
     test "adds a request to the state" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert %State{
                public_path: @public_path,
@@ -30,7 +30,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "get_requests/1" do
     test "returns the requests in the state" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert [^request] = State.get_requests(State.add_request(state, request))
     end
@@ -39,7 +39,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "get_request/2" do
     test "returns the request with the given id" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert ^request = State.get_request(State.add_request(state, request), "id")
     end
@@ -48,7 +48,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "delete_request/2" do
     test "deletes the request with the given id" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert %State{
                public_path: @public_path,
@@ -60,7 +60,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "delete_requests/1" do
     test "deletes all requests" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert %State{
                public_path: @public_path,
@@ -72,7 +72,7 @@ defmodule Wexhook.Server.InMemory.StateTest do
   describe "get_request_count/1" do
     test "returns the number of requests in the state" do
       state = State.new(@public_path)
-      request = Request.new("id", :get, [], "body")
+      request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
       assert 1 == State.get_request_count(State.add_request(state, request))
     end
