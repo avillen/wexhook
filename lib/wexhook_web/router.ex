@@ -14,16 +14,16 @@ defmodule WexhookWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", WexhookWeb do
-    pipe_through :browser
-
-    live "/", HomeLive
-  end
-
   scope "/hook", WexhookWeb do
     pipe_through :api
 
     post "/:id", HookController, :hook
+  end
+
+  scope "/", WexhookWeb do
+    pipe_through :browser
+
+    live "/", HomeLive
   end
 
   # Enable LiveDashboard in development

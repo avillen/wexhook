@@ -22,6 +22,31 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+const shootConfetti = () => {
+  const colors = ["#00bcd2", "#e0105e", "#fcf801"]
+
+  confetti({
+    particleCount: 100,
+    angle: 60,
+    spread: 55,
+    origin: { x: 0 },
+    colors
+  })
+
+  confetti({
+    particleCount: 100,
+    angle: 120,
+    spread: 55,
+    origin: { x: 1 },
+    colors
+  })
+};
+
+window.addEventListener("phx:request_received", (_e) => {
+  console.log("hola!");
+  shootConfetti();
+});
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
 

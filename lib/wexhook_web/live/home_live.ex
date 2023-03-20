@@ -1,11 +1,12 @@
 defmodule WexhookWeb.HomeLive do
   use Phoenix.LiveView
 
+  alias Wexhook.Components.HookCard
   alias __MODULE__.State
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      create_server()
+      Process.send(self(), :create_server, [])
     end
 
     {:ok, assign(socket, :state, State.new())}
@@ -36,10 +37,11 @@ defmodule WexhookWeb.HomeLive do
       |> WexhookWeb.get_state()
       |> State.add_request(request)
 
-    {:noreply, assign(socket, :state, state)}
-  end
+    socket =
+      socket
+      |> assign(:state, state)
+      |> push_event("request_received", %{})
 
-  defp create_server do
-    Process.send(self(), :create_server, [])
+    {:noreply, socket}
   end
 end
