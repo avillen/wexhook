@@ -9,16 +9,12 @@ defmodule Wexhook.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_coverage: [
-        ignore_modules: [
-          Wexhook.Application,
-          Wexhook.Server,
-          WexhookWeb.CoreComponents,
-          WexhookWeb.ErrorHTML,
-          WexhookWeb.Gettext,
-          WexhookWeb.Layouts,
-          WexhookWeb.PageHTML,
-          WexhookWeb.Router,
-          WexhookWeb.Telemetry
+        tool: ExCoveralls,
+        preferred_cli_env: [
+          coveralls: :test,
+          "coveralls.detail": :test,
+          "coveralls.post": :test,
+          "coveralls.html": :test
         ]
       ],
       aliases: aliases(),
@@ -59,8 +55,11 @@ defmodule Wexhook.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:timex, "~> 3.7.9"},
+
+      # Testing
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 

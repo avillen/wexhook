@@ -1,0 +1,15 @@
+{
+  "skip_files": [
+    "lib/wexhook/application.ex",
+    "lib/wexhook/server.ex",
+    "lib/wexhook_web/components/core_components.ex",
+    "lib/wexhook_web/components/layouts.ex",
+    "lib/wexhook_web/controllers/error_html.ex",
+    "lib/wexhook_web/controllers/error_html.ex",
+    "lib/wexhook_web/controllers/page_html.ex",
+    "lib/wexhook_web/endpoint.ex",
+    "lib/wexhook_web/gettext.ex",
+    "lib/wexhook_web/router.ex",
+    "lib/wexhook_web/telemetry.ex"
+  ]
+}

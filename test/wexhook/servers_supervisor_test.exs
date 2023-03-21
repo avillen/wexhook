@@ -3,6 +3,10 @@ defmodule Wexhook.ServersSupervisorTest do
 
   alias Wexhook.ServersSupervisor
 
+  test "start_link/1" do
+    assert {:ok, _} = ServersSupervisor.start_link()
+  end
+
   test "start_server/0" do
     assert {:ok, _} = ServersSupervisor.start_server("public_start_server")
   end
