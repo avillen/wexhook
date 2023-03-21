@@ -10,7 +10,9 @@ defmodule WexhookWeb.CoreComponents do
   """
   use Phoenix.Component
 
+  alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
+
   import WexhookWeb.Gettext
 
   @doc """
@@ -52,7 +54,7 @@ defmodule WexhookWeb.CoreComponents do
       phx-remove={hide_modal(@id)}
       class="relative z-50 hidden"
     >
-      <div id={"#{@id}-bg"} class="fixed inset-0 bg-zinc-50/90 transition-opacity" aria-hidden="true" />
+      <div id={"#{@id}-bg"} class="bg-zinc-50/90 transition-opacity fixed inset-0" aria-hidden="true" />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -61,21 +63,21 @@ defmodule WexhookWeb.CoreComponents do
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
+        <div class="flex items-center justify-center min-h-full">
+          <div class="sm:p-6 lg:py-8 w-full max-w-3xl p-4">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-mounted={@show && show_modal(@id)}
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden relative rounded-2xl bg-white p-14 shadow-lg shadow-zinc-700/10 ring-1 ring-zinc-700/10 transition"
+              class="rounded-2xl p-14 shadow-zinc-700/10 ring-1 ring-zinc-700/10 transition relative hidden bg-white shadow-lg"
             >
-              <div class="absolute top-6 right-5">
+              <div class="top-6 right-5 absolute">
                 <button
                   phx-click={hide_modal(@on_cancel, @id)}
                   type="button"
-                  class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
+                  class="opacity-20 hover:opacity-40 flex-none p-3 -m-3"
                   aria-label={gettext("close")}
                 >
                   <.icon name="hero-x-mark-solid" class="w-5 h-5" />
@@ -83,32 +85,32 @@ defmodule WexhookWeb.CoreComponents do
               </div>
               <div id={"#{@id}-content"}>
                 <header :if={@title != []}>
-                  <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-zinc-800">
+                  <h1 id={"#{@id}-title"} class="leading-8 text-zinc-800 text-lg font-semibold">
                     <%= render_slot(@title) %>
                   </h1>
                   <p
                     :if={@subtitle != []}
                     id={"#{@id}-description"}
-                    class="mt-2 text-sm leading-6 text-zinc-600"
+                    class="leading-6 text-zinc-600 mt-2 text-sm"
                   >
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
                 <%= render_slot(@inner_block) %>
-                <div :if={@confirm != [] or @cancel != []} class="ml-6 mb-4 flex items-center gap-5">
+                <div :if={@confirm != [] or @cancel != []} class="gap-5 flex items-center mb-4 ml-6">
                   <.button
                     :for={confirm <- @confirm}
                     id={"#{@id}-confirm"}
                     phx-click={@on_confirm}
                     phx-disable-with
-                    class="py-2 px-3"
+                    class="px-3 py-2"
                   >
                     <%= render_slot(confirm) %>
                   </.button>
                   <.link
                     :for={cancel <- @cancel}
                     phx-click={hide_modal(@on_cancel, @id)}
-                    class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                    class="leading-6 text-zinc-900 hover:text-zinc-700 text-sm font-semibold"
                   >
                     <%= render_slot(cancel) %>
                   </.link>
@@ -164,10 +166,10 @@ defmodule WexhookWeb.CoreComponents do
       <button
         :if={@close}
         type="button"
-        class="group absolute top-2 right-1 p-2"
+        class="group top-2 right-1 absolute p-2"
         aria-label={gettext("close")}
       >
-        <.icon name="hero-x-mark-solid" class="w-5 h-5 opacity-40 group-hover:opacity-70" />
+        <.icon name="hero-x-mark-solid" class="opacity-40 group-hover:opacity-70 w-5 h-5" />
       </button>
     </div>
     """
@@ -195,7 +197,7 @@ defmodule WexhookWeb.CoreComponents do
       phx-disconnected={show("#disconnected")}
       phx-connected={hide("#disconnected")}
     >
-      Attempting to reconnect <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+      Attempting to reconnect <.icon name="hero-arrow-path" class="animate-spin w-3 h-3 ml-1" />
     </.flash>
     """
   end
@@ -226,9 +228,9 @@ defmodule WexhookWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="space-y-8 bg-white mt-10">
+      <div class="space-y-8 mt-10 bg-white">
         <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+        <div :for={action <- @actions} class="gap-6 flex items-center justify-between mt-2">
           <%= render_slot(action, f) %>
         </div>
       </div>
@@ -310,12 +312,11 @@ defmodule WexhookWeb.CoreComponents do
   end
 
   def input(%{type: "checkbox", value: value} = assigns) do
-    assigns =
-      assign_new(assigns, :checked, fn -> Phoenix.HTML.Form.normalize_value("checkbox", value) end)
+    assigns = assign_new(assigns, :checked, fn -> Form.normalize_value("checkbox", value) end)
 
     ~H"""
     <div phx-feedback-for={@name}>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="gap-4 leading-6 text-zinc-600 flex items-center text-sm">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -323,7 +324,7 @@ defmodule WexhookWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
+          class="border-zinc-300 text-zinc-900 focus:ring-zinc-900 rounded"
           {@rest}
         />
         <%= @label %>
@@ -340,7 +341,7 @@ defmodule WexhookWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
+        class="rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm block w-full px-3 py-2 mt-1 bg-white border border-gray-300"
         multiple={@multiple}
         {@rest}
       >
@@ -404,7 +405,7 @@ defmodule WexhookWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="leading-6 text-zinc-800 block text-sm font-semibold">
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -417,8 +418,8 @@ defmodule WexhookWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-3 text-sm leading-6 text-rose-600">
-      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 w-5 h-5 flex-none" />
+    <p class="phx-no-feedback:hidden gap-3 leading-6 text-rose-600 flex mt-3 text-sm">
+      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 flex-none w-5 h-5" />
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -437,10 +438,10 @@ defmodule WexhookWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
+        <h1 class="leading-8 text-zinc-800 text-lg font-semibold">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="leading-6 text-zinc-600 mt-2 text-sm">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -481,7 +482,7 @@ defmodule WexhookWeb.CoreComponents do
       end
 
     ~H"""
-    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
+    <div class="sm:overflow-visible sm:px-0 px-4 overflow-y-auto">
       <table class="mt-11 w-[40rem] sm:w-full">
         <thead class="text-left text-[0.8125rem] leading-6 text-zinc-500">
           <tr>
@@ -492,7 +493,7 @@ defmodule WexhookWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
+          class="divide-y divide-zinc-100 border-zinc-200 leading-6 text-zinc-700 relative text-sm border-t"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
             <td
@@ -501,18 +502,18 @@ defmodule WexhookWeb.CoreComponents do
               class={["relative p-0", @row_click && "hover:cursor-pointer"]}
             >
               <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
+                <span class="-inset-y-px -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl absolute right-0" />
                 <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
                   <%= render_slot(col, @row_item.(row)) %>
                 </span>
               </div>
             </td>
-            <td :if={@action != []} class="relative p-0 w-14">
-              <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
+            <td :if={@action != []} class="w-14 relative p-0">
+              <div class="whitespace-nowrap relative py-4 text-sm font-medium text-right">
+                <span class="-inset-y-px -right-4 group-hover:bg-zinc-50 sm:rounded-r-xl absolute left-0" />
                 <span
                   :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                  class="leading-6 text-zinc-900 hover:text-zinc-700 relative ml-4 font-semibold"
                 >
                   <%= render_slot(action, @row_item.(row)) %>
                 </span>
@@ -542,10 +543,10 @@ defmodule WexhookWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
-        <div :for={item <- @item} class="flex gap-4 py-4 sm:gap-8">
+      <dl class="divide-y divide-zinc-100 -my-4">
+        <div :for={item <- @item} class="gap-4 sm:gap-8 flex py-4">
           <dt class="w-1/4 flex-none text-[0.8125rem] leading-6 text-zinc-500"><%= item.title %></dt>
-          <dd class="text-sm leading-6 text-zinc-700"><%= render_slot(item) %></dd>
+          <dd class="leading-6 text-zinc-700 text-sm"><%= render_slot(item) %></dd>
         </div>
       </dl>
     </div>
@@ -567,7 +568,7 @@ defmodule WexhookWeb.CoreComponents do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+        class="leading-6 text-zinc-900 hover:text-zinc-700 text-sm font-semibold"
       >
         <.icon name="hero-arrow-left-solid" class="w-3 h-3" />
         <%= render_slot(@inner_block) %>
@@ -594,7 +595,7 @@ defmodule WexhookWeb.CoreComponents do
       <.icon name="hero-cake" />
       <.icon name="hero-cake-solid" />
       <.icon name="hero-cake-mini" />
-      <.icon name="hero-bolt" class="bg-blue-500 w-10 h-10" />
+      <.icon name="hero-bolt" class="w-10 h-10 bg-blue-500" />
   """
   attr :name, :string, required: true
   attr :class, :string, default: nil

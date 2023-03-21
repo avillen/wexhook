@@ -1,4 +1,8 @@
 defmodule WexhookWeb.HookController do
+  @moduledoc """
+  The hook controller.
+  """
+
   use WexhookWeb, :controller
 
   alias Wexhook.Request

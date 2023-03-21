@@ -1,4 +1,8 @@
 defmodule Wexhook.Server.InMemory.State do
+  @moduledoc """
+  The state of the in-memory server.
+  """
+
   alias Wexhook.Request
 
   @type id :: String.t()

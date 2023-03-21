@@ -1,4 +1,8 @@
 defmodule WexhookWeb.HomeLive.State do
+  @moduledoc """
+  The state of the home live view.
+  """
+
   alias Wexhook.Request
 
   @type public_path :: String.t()

@@ -1,4 +1,8 @@
 defmodule WexhookWeb.Components.HookCard do
+  @moduledoc """
+  A component for displaying a request.
+  """
+
   use Phoenix.Component
 
   def base(assigns) do

@@ -1,4 +1,8 @@
 defmodule Wexhook do
+  @moduledoc """
+  Wexhook business logic.
+  """
+
   alias __MODULE__.{
     Request,
     Server,
@@ -47,7 +51,7 @@ defmodule Wexhook do
   end
 
   @spec get_server_count() :: non_neg_integer()
-  def get_server_count() do
+  def get_server_count do
     ServersSupervisor.get_server_count()
   end
 
@@ -57,7 +61,7 @@ defmodule Wexhook do
   end
 
   @spec delete_servers() :: :ok
-  def delete_servers() do
+  def delete_servers do
     ServersSupervisor.delete_servers()
   end
 

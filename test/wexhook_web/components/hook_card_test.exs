@@ -3,6 +3,7 @@ defmodule WexhookWeb.Components.HookCardTest do
   import Phoenix.LiveViewTest
 
   alias WexhookWeb.Components.HookCard
+
   alias Wexhook.Request
 
   test "renders the component" do

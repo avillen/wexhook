@@ -1,4 +1,8 @@
 defmodule Wexhook.Server.InMemory do
+  @moduledoc """
+  The in-memory server implementation.
+  """
+
   alias __MODULE__.State
 
   use GenServer

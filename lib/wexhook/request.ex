@@ -1,4 +1,8 @@
 defmodule Wexhook.Request do
+  @moduledoc """
+  A request entity.
+  """
+
   @type id :: String.t()
   @type method :: String.t()
   @type headers :: [{String.t(), String.t()}]

@@ -1,7 +1,12 @@
 defmodule WexhookWeb.HomeLive do
+  @moduledoc """
+  The home live view.
+  """
+
   use Phoenix.LiveView
 
   alias WexhookWeb.Components.HookCard
+
   alias __MODULE__.State
 
   def mount(%{"id" => id}, _session, socket) do

@@ -1,4 +1,8 @@
 defmodule Wexhook.ServersSupervisor do
+  @moduledoc """
+  The servers supervisor.
+  """
+
   alias Wexhook.Server.InMemory, as: Server
 
   use DynamicSupervisor

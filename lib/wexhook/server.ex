@@ -1,4 +1,8 @@
 defmodule Wexhook.Server do
+  @moduledoc """
+  The behaviour for a server.
+  """
+
   alias __MODULE__.State
 
   @adapter Application.compile_env!(:wexhook, __MODULE__)[:adapter]
