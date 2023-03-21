@@ -5,7 +5,8 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   alias Wexhook.Request
 
-  @base_path Application.compile_env!(:wexhook, :base_path)
+  @hook_base_path Application.compile_env!(:wexhook, :hook_base_path)
+  @share_base_path Application.compile_env!(:wexhook, :share_base_path)
 
   describe "new/0" do
     test "returns a new state" do
@@ -26,7 +27,7 @@ defmodule WexhookWeb.HomeLive.StateTest do
     test "sets the public path" do
       state = State.new()
       path = "/path/to/public"
-      url = @base_path <> path
+      url = @hook_base_path <> path
 
       assert %State{public_path: ^url} = State.set_public_path(state, path)
     end
@@ -35,9 +36,32 @@ defmodule WexhookWeb.HomeLive.StateTest do
   describe "add_request/2" do
     test "adds a request to the state" do
       state = State.new()
-      request = Request.new("id", :get, [], "body", DateTime.utc_now())
+      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
 
       assert %State{requests: [^request]} = State.add_request(state, request)
+    end
+  end
+
+  describe "set_share_url/1" do
+    test "sets the share url" do
+      state = State.new()
+      path = "/path/to/public"
+      url = @share_base_path <> path
+
+      assert %State{share_url: ^url} = State.set_share_url(state, path)
+    end
+  end
+
+  describe "set_requests/2" do
+    test "sets the requests" do
+      state = State.new()
+
+      requests = [
+        Request.new("id", "GET", [], "body", DateTime.utc_now()),
+        Request.new("id", "GET", [], "body", DateTime.utc_now())
+      ]
+
+      assert %State{requests: ^requests} = State.set_requests(state, requests)
     end
   end
 
@@ -53,7 +77,7 @@ defmodule WexhookWeb.HomeLive.StateTest do
   describe "get_public_path/1" do
     test "returns the public path" do
       path = "/path/to/public"
-      url = @base_path <> path
+      url = @hook_base_path <> path
       state = %State{public_path: url}
 
       assert ^url = State.get_public_path(state)
@@ -66,6 +90,24 @@ defmodule WexhookWeb.HomeLive.StateTest do
       request = %{}
 
       assert [^request] = State.get_requests(State.add_request(state, request))
+    end
+  end
+
+  describe "get_share_url/1" do
+    test "returns the share url" do
+      url = @share_base_path
+      state = %State{share_url: url}
+
+      assert ^url = State.get_share_url(state)
+    end
+  end
+
+  describe "get_request/2" do
+    test "returns the request with the given id" do
+      state = State.new()
+      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
+
+      assert ^request = State.get_request(State.add_request(state, request), "id")
     end
   end
 end

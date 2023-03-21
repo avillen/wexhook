@@ -1,4 +1,4 @@
-defmodule Wexhook.Components.HookCard do
+defmodule WexhookWeb.Components.HookCard do
   use Phoenix.Component
 
   def base(assigns) do
@@ -18,7 +18,7 @@ defmodule Wexhook.Components.HookCard do
       </div>
       <div class="divide-y flex flex-col ml-4">
         <div class="text-sm font-bold text-gray-900">
-          <%= Timex.format!(@request.created_at, "%F %T", :strftime) %>
+          <%= format_date(@request.created_at) %>
         </div>
         <div class="text-sm font-medium text-gray-900"><%= @request.method %></div>
         <div class="text-sm font-medium text-gray-900"><%= inspect(@request.headers) %></div>
@@ -26,5 +26,9 @@ defmodule Wexhook.Components.HookCard do
       </div>
     </div>
     """
+  end
+
+  defp format_date(date) do
+    Timex.format!(date, "%F %T", :strftime)
   end
 end
