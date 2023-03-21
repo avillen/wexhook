@@ -9,9 +9,9 @@ defmodule Wexhook.Server.InMemory do
 
   @impl Wexhook.Server
   def start_link(opts \\ []) do
-    public_path = Keyword.fetch!(opts, :public_path)
+    id = Keyword.fetch!(opts, :id)
 
-    GenServer.start_link(__MODULE__, public_path, opts)
+    GenServer.start_link(__MODULE__, id, opts)
   end
 
   @impl Wexhook.Server
@@ -45,13 +45,13 @@ defmodule Wexhook.Server.InMemory do
   end
 
   @impl Wexhook.Server
-  def get_public_path(pid \\ @name) do
-    GenServer.call(pid, :get_public_path)
+  def get_id(pid \\ @name) do
+    GenServer.call(pid, :get_id)
   end
 
   @impl true
-  def init(public_path) do
-    {:ok, State.new(public_path)}
+  def init(id) do
+    {:ok, State.new(id)}
   end
 
   @impl true
@@ -89,7 +89,7 @@ defmodule Wexhook.Server.InMemory do
   end
 
   @impl true
-  def handle_call(:get_public_path, _from, state) do
-    {:reply, State.get_public_path(state), state}
+  def handle_call(:get_id, _from, state) do
+    {:reply, State.get_id(state), state}
   end
 end

@@ -12,7 +12,7 @@ defmodule Wexhook.Server do
   @callback delete_request(pid, Request.id()) :: State.requests()
   @callback delete_requests(pid) :: State.requests()
   @callback get_request_count(pid) :: non_neg_integer()
-  @callback get_public_path(pid) :: State.public_path()
+  @callback get_id(pid) :: State.id()
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
@@ -49,8 +49,8 @@ defmodule Wexhook.Server do
     @adapter.get_request_count(pid)
   end
 
-  @spec get_public_path(pid) :: State.public_path()
-  def get_public_path(pid \\ @name) do
-    @adapter.get_public_path(pid)
+  @spec get_id(pid) :: State.id()
+  def get_id(pid \\ @name) do
+    @adapter.get_id(pid)
   end
 end

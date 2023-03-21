@@ -6,13 +6,13 @@ defmodule Wexhook.Server.InMemoryTest do
 
   describe "start_link/1" do
     test "success" do
-      {:ok, pid} = Server.start_link(public_path: "public")
+      {:ok, pid} = Server.start_link(id: "public")
       assert is_pid(pid)
     end
   end
 
   test "push_request/1" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
 
@@ -20,7 +20,7 @@ defmodule Wexhook.Server.InMemoryTest do
   end
 
   test "get_requests/0" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
     Server.push_request(pid, request)
@@ -29,7 +29,7 @@ defmodule Wexhook.Server.InMemoryTest do
   end
 
   test "get_request/1" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
     Server.push_request(pid, request)
@@ -38,7 +38,7 @@ defmodule Wexhook.Server.InMemoryTest do
   end
 
   test "delete_request/1" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
     Server.push_request(pid, request)
@@ -47,7 +47,7 @@ defmodule Wexhook.Server.InMemoryTest do
   end
 
   test "delete_requests/0" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
     Server.push_request(pid, request)
@@ -57,7 +57,7 @@ defmodule Wexhook.Server.InMemoryTest do
   end
 
   test "get_request_count/0" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+    {:ok, pid} = Server.start_link(id: "public")
 
     request = Request.new("id", :get, %{}, "body", DateTime.utc_now())
     Server.push_request(pid, request)
@@ -65,9 +65,9 @@ defmodule Wexhook.Server.InMemoryTest do
     assert 1 = Server.get_request_count(pid)
   end
 
-  test "get_public_path/0" do
-    {:ok, pid} = Server.start_link(public_path: "public")
+  test "get_id/0" do
+    {:ok, pid} = Server.start_link(id: "public")
 
-    assert "public" = Server.get_public_path(pid)
+    assert "public" = Server.get_id(pid)
   end
 end

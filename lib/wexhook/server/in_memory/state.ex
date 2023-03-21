@@ -1,24 +1,24 @@
 defmodule Wexhook.Server.InMemory.State do
   alias Wexhook.Request
 
-  @type public_path :: String.t()
+  @type id :: String.t()
   @type requests :: [Request.t()]
 
   @type t :: %__MODULE__{
-          public_path: public_path,
+          id: id,
           requests: requests
         }
 
   defstruct ~w(
-    public_path
+    id
     requests
   )a
 
-  @spec new(public_path) :: t
-  def new(public_path) do
+  @spec new(id) :: t
+  def new(id) do
     %__MODULE__{
       requests: [],
-      public_path: public_path
+      id: id
     }
   end
 
@@ -61,8 +61,8 @@ defmodule Wexhook.Server.InMemory.State do
     Enum.count(state.requests)
   end
 
-  @spec get_public_path(t) :: public_path
-  def get_public_path(state) do
-    state.public_path
+  @spec get_id(t) :: id
+  def get_id(state) do
+    state.id
   end
 end

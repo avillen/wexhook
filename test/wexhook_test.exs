@@ -90,21 +90,19 @@ defmodule WexhookTest do
     end
   end
 
-  describe "get_server_by_public_path/1" do
+  describe "get_server_by_id/1" do
     test "on success" do
-      {:ok, pid} = Wexhook.new_server("get_server_by_public_path_on_success")
+      {:ok, pid} = Wexhook.new_server("get_server_by_id_on_success")
 
-      assert pid ==
-               Wexhook.get_server_by_public_path("get_server_by_public_path_on_success")
+      assert pid == Wexhook.get_server_by_id("get_server_by_id_on_success")
     end
   end
 
-  describe "get_server_public_path/1" do
+  describe "get_server_id/1" do
     test "on success" do
-      {:ok, pid} = Wexhook.new_server("public_get_server_public_path_on_success")
+      {:ok, pid} = Wexhook.new_server("public_get_server_id_on_success")
 
-      assert "public_get_server_public_path_on_success" ==
-               Wexhook.get_server_public_path(pid)
+      assert "public_get_server_id_on_success" == Wexhook.get_server_id(pid)
     end
   end
 

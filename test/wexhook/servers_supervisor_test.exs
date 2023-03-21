@@ -29,12 +29,9 @@ defmodule Wexhook.ServersSupervisorTest do
     assert server_count > 0
   end
 
-  test "get_server_pid_by_public_path/1" do
-    {:ok, pid} = ServersSupervisor.start_server("public_get_server_pid_by_public_path")
+  test "get_server_pid_by_id/1" do
+    {:ok, pid} = ServersSupervisor.start_server("public_get_server_pid_by_id")
 
-    assert pid ==
-             ServersSupervisor.get_server_pid_by_public_path(
-               "public_get_server_pid_by_public_path"
-             )
+    assert pid == ServersSupervisor.get_server_pid_by_id("public_get_server_pid_by_id")
   end
 end

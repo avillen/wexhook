@@ -4,9 +4,9 @@ defmodule WexhookWeb.HomeLive do
   alias WexhookWeb.Components.HookCard
   alias __MODULE__.State
 
-  def mount(%{"id" => public_path}, _session, socket) do
+  def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
-      Process.send(self(), {:fetch_server, public_path}, [])
+      Process.send(self(), {:fetch_server, id}, [])
     end
 
     {:ok, assign(socket, :state, State.new())}
@@ -23,14 +23,14 @@ defmodule WexhookWeb.HomeLive do
   # Create server handler
   def handle_info(:create_server, socket) do
     {:ok, server_pid} = Wexhook.new_server()
-    public_path = Wexhook.get_server_public_path(server_pid)
+    id = Wexhook.get_server_id(server_pid)
 
     state =
       socket
       |> WexhookWeb.get_state()
       |> State.set_server_pid(server_pid)
-      |> State.set_public_path(public_path)
-      |> State.set_share_url(public_path)
+      |> State.set_public_path(id)
+      |> State.set_share_url(id)
 
     state
     |> State.get_server_pid()
@@ -40,8 +40,8 @@ defmodule WexhookWeb.HomeLive do
   end
 
   # Fetch server handler
-  def handle_info({:fetch_server, public_path}, socket) do
-    case Wexhook.get_server_by_public_path(public_path) do
+  def handle_info({:fetch_server, id}, socket) do
+    case Wexhook.get_server_by_id(id) do
       nil ->
         {:noreply, socket}
 
@@ -50,8 +50,8 @@ defmodule WexhookWeb.HomeLive do
           socket
           |> WexhookWeb.get_state()
           |> State.set_server_pid(pid)
-          |> State.set_public_path(public_path)
-          |> State.set_share_url(public_path)
+          |> State.set_public_path(id)
+          |> State.set_share_url(id)
           |> State.set_requests(Wexhook.get_requests(pid))
 
         state

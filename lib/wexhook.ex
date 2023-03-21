@@ -7,12 +7,12 @@ defmodule Wexhook do
 
   alias Wexhook.Support.Strings
 
-  @type public_path :: String.t()
+  @type id :: String.t()
   @type request :: Request.t()
 
-  @spec new_server(public_path) :: {:ok, pid}
-  def new_server(public_path \\ Strings.random_string()) do
-    ServersSupervisor.start_server(public_path)
+  @spec new_server(id) :: {:ok, pid}
+  def new_server(id \\ Strings.random_string()) do
+    ServersSupervisor.start_server(id)
   end
 
   @spec add_request(pid, request) :: :ok
@@ -61,14 +61,14 @@ defmodule Wexhook do
     ServersSupervisor.delete_servers()
   end
 
-  @spec get_server_public_path(pid) :: public_path
-  def get_server_public_path(pid) do
-    Server.get_public_path(pid)
+  @spec get_server_id(pid) :: id
+  def get_server_id(pid) do
+    Server.get_id(pid)
   end
 
-  @spec get_server_by_public_path(public_path) :: pid | nil
-  def get_server_by_public_path(public_path) do
-    ServersSupervisor.get_server_pid_by_public_path(public_path)
+  @spec get_server_by_id(id) :: pid | nil
+  def get_server_by_id(id) do
+    ServersSupervisor.get_server_pid_by_id(id)
   end
 
   @spec subscribe_to_server(pid) :: :ok
@@ -77,6 +77,6 @@ defmodule Wexhook do
   end
 
   defp topic(pid) do
-    get_server_public_path(pid)
+    get_server_id(pid)
   end
 end
