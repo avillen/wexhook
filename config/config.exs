@@ -12,7 +12,7 @@ config :wexhook,
   share_base_path: "http://localhost:4000/"
 
 # Configure server adapter
-config :wexhook, Wexhook.Server, adapter: Wexhook.Server.InMemory
+config :wexhook, Wexhook.ServerRepo, adapter: Wexhook.Server.InMemory
 
 # Configures the endpoint
 config :wexhook, WexhookWeb.Endpoint,

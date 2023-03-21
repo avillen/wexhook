@@ -5,7 +5,7 @@ defmodule Wexhook do
 
   alias __MODULE__.{
     Request,
-    Server,
+    ServerRepo,
     ServersSupervisor
   }
 
@@ -21,33 +21,33 @@ defmodule Wexhook do
 
   @spec add_request(pid, request) :: :ok
   def add_request(pid, request) do
-    Server.push_request(pid, request)
+    ServerRepo.push_request(pid, request)
     Phoenix.PubSub.broadcast(Wexhook.PubSub, topic(pid), {:request, request})
   end
 
   @spec get_requests(pid) :: [request]
   def get_requests(pid) do
-    Server.get_requests(pid)
+    ServerRepo.get_requests(pid)
   end
 
   @spec get_request(pid, Request.id()) :: request | nil
   def get_request(pid, id) do
-    Server.get_request(pid, id)
+    ServerRepo.get_request(pid, id)
   end
 
   @spec delete_request(pid, Request.id()) :: [request]
   def delete_request(pid, id) do
-    Server.delete_request(pid, id)
+    ServerRepo.delete_request(pid, id)
   end
 
   @spec delete_requests(pid) :: [request]
   def delete_requests(pid) do
-    Server.delete_requests(pid)
+    ServerRepo.delete_requests(pid)
   end
 
   @spec get_request_count(pid) :: non_neg_integer()
   def get_request_count(pid) do
-    Server.get_request_count(pid)
+    ServerRepo.get_request_count(pid)
   end
 
   @spec get_server_count() :: non_neg_integer()
@@ -67,7 +67,7 @@ defmodule Wexhook do
 
   @spec get_server_id(pid) :: id
   def get_server_id(pid) do
-    Server.get_id(pid)
+    ServerRepo.get_id(pid)
   end
 
   @spec get_server_by_id(id) :: pid | nil

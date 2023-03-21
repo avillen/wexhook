@@ -1,60 +1,72 @@
 defmodule Wexhook.Server do
   @moduledoc """
-  The behaviour for a server.
+  Server entity.
   """
 
-  alias __MODULE__.State
+  alias Wexhook.Request
 
-  @adapter Application.compile_env!(:wexhook, __MODULE__)[:adapter]
+  @type id :: String.t()
+  @type request :: Request.t()
 
-  @name __MODULE__
+  @type t :: %__MODULE__{
+          id: id,
+          requests: [request]
+        }
 
-  @callback start_link(Keyword.t()) :: GenServer.on_start()
-  @callback push_request(pid, any()) :: :ok
-  @callback get_requests(pid) :: State.requests()
-  @callback get_request(pid, Request.id()) :: Request.t()
-  @callback delete_request(pid, Request.id()) :: State.requests()
-  @callback delete_requests(pid) :: State.requests()
-  @callback get_request_count(pid) :: non_neg_integer()
-  @callback get_id(pid) :: State.id()
+  defstruct ~w(
+    id
+    requests
+  )a
 
-  @spec start_link(Keyword.t()) :: GenServer.on_start()
-  def start_link(opts \\ []) do
-    @adapter.start_link(opts)
+  @spec new(id) :: t
+  def new(id) do
+    %__MODULE__{
+      requests: [],
+      id: id
+    }
   end
 
-  @spec push_request(pid, any()) :: :ok
-  def push_request(pid \\ @name, request) do
-    @adapter.push_request(pid, request)
+  @spec add_request(t, request) :: t
+  def add_request(server, request) do
+    %__MODULE__{
+      server
+      | requests: [request | server.requests]
+    }
   end
 
-  @spec get_requests(pid) :: State.requests()
-  def get_requests(pid \\ @name) do
-    @adapter.get_requests(pid)
+  @spec get_requests(t) :: [request]
+  def get_requests(server) do
+    server.requests
   end
 
-  @spec get_request(pid, Request.id()) :: Request.t()
-  def get_request(pid \\ @name, id) do
-    @adapter.get_request(pid, id)
+  @spec get_request(t, Request.id()) :: Request.t()
+  def get_request(server, id) do
+    Enum.find(server.requests, fn request -> request.id == id end)
   end
 
-  @spec delete_request(pid, Request.id()) :: State.requests()
-  def delete_request(pid \\ @name, id) do
-    @adapter.delete_request(pid, id)
+  @spec delete_request(t, Request.id()) :: t
+  def delete_request(server, id) do
+    %__MODULE__{
+      server
+      | requests: Enum.reject(server.requests, fn request -> request.id == id end)
+    }
   end
 
-  @spec delete_requests(pid) :: State.requests()
-  def delete_requests(pid \\ @name) do
-    @adapter.delete_requests(pid)
+  @spec delete_requests(t) :: t
+  def delete_requests(server) do
+    %__MODULE__{
+      server
+      | requests: []
+    }
   end
 
-  @spec get_request_count(pid) :: non_neg_integer()
-  def get_request_count(pid \\ @name) do
-    @adapter.get_request_count(pid)
+  @spec get_request_count(t) :: non_neg_integer()
+  def get_request_count(server) do
+    Enum.count(server.requests)
   end
 
-  @spec get_id(pid) :: State.id()
-  def get_id(pid \\ @name) do
-    @adapter.get_id(pid)
+  @spec get_id(t) :: id
+  def get_id(server) do
+    server.id
   end
 end

@@ -1,88 +1,88 @@
-defmodule Wexhook.Server.InMemory.StateTest do
+defmodule Wexhook.ServerTest do
   use ExUnit.Case, async: true
 
   alias Wexhook.Request
-  alias Wexhook.Server.InMemory.State
+  alias Wexhook.Server
 
   @id "public"
 
   describe "new/1" do
-    test "returns a new state" do
-      assert %State{
+    test "returns a new server" do
+      assert %Server{
                id: @id,
                requests: []
-             } == State.new(@id)
+             } == Server.new(@id)
     end
   end
 
   describe "add_request/2" do
-    test "adds a request to the state" do
-      state = State.new(@id)
+    test "adds a request to the server" do
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert %State{
+      assert %Server{
                id: @id,
                requests: [^request]
-             } = State.add_request(state, request)
+             } = Server.add_request(server, request)
     end
   end
 
   describe "get_requests/1" do
-    test "returns the requests in the state" do
-      state = State.new(@id)
+    test "returns the requests in the server" do
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert [^request] = State.get_requests(State.add_request(state, request))
+      assert [^request] = Server.get_requests(Server.add_request(server, request))
     end
   end
 
   describe "get_request/2" do
     test "returns the request with the given id" do
-      state = State.new(@id)
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert ^request = State.get_request(State.add_request(state, request), "id")
+      assert ^request = Server.get_request(Server.add_request(server, request), "id")
     end
   end
 
   describe "delete_request/2" do
     test "deletes the request with the given id" do
-      state = State.new(@id)
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert %State{
+      assert %Server{
                id: @id,
                requests: []
-             } == State.delete_request(State.add_request(state, request), "id")
+             } == Server.delete_request(Server.add_request(server, request), "id")
     end
   end
 
   describe "delete_requests/1" do
     test "deletes all requests" do
-      state = State.new(@id)
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert %State{
+      assert %Server{
                id: @id,
                requests: []
-             } == State.delete_requests(State.add_request(state, request))
+             } == Server.delete_requests(Server.add_request(server, request))
     end
   end
 
   describe "get_request_count/1" do
-    test "returns the number of requests in the state" do
-      state = State.new(@id)
+    test "returns the number of requests in the server" do
+      server = Server.new(@id)
       request = Request.new("id", :get, [], "body", DateTime.utc_now())
 
-      assert 1 == State.get_request_count(State.add_request(state, request))
+      assert 1 == Server.get_request_count(Server.add_request(server, request))
     end
   end
 
   describe "get_id/1" do
     test "returns the public path" do
-      state = State.new(@id)
+      server = Server.new(@id)
 
-      assert @id == State.get_id(state)
+      assert @id == Server.get_id(server)
     end
   end
 end
