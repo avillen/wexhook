@@ -11,9 +11,16 @@ defmodule WexhookWeb.HomeLiveTest do
   end
 
   test "renders the page for a server fetching a server that doesn't exists", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/server_id")
+    id = "server_id"
+    conn = get(conn, "/" <> id)
+    {:ok, _view, html} = live(conn)
 
     assert html =~ "Webhook URL"
+
+    conn = post(conn, "/hook/" <> id)
+    json_response(conn, 200)
+
+    assert_receive {_, {:push_event, "request_received", %{}}}
   end
 
   test "renders the page for a server fetching a server that exists", %{conn: conn} do
@@ -26,7 +33,7 @@ defmodule WexhookWeb.HomeLiveTest do
     assert html =~ "Webhook URL"
 
     conn = post(conn, "/hook/" <> id)
-    json_response(conn, 200) |> IO.inspect()
+    json_response(conn, 200)
 
     assert_receive {_, {:push_event, "request_received", %{}}}
   end
