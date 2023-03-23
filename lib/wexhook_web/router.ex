@@ -24,7 +24,7 @@ defmodule WexhookWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive
-    live "/:id", HomeLive
+    live "/share/:id", HomeLive
   end
 
   # Enable LiveDashboard in development

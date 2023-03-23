@@ -9,7 +9,7 @@ import Config
 
 config :wexhook,
   hook_base_path: "http://localhost:4000/hook/",
-  share_base_path: "http://localhost:4000/"
+  share_base_path: "http://localhost:4000/share/"
 
 # Configure server adapter
 config :wexhook, Wexhook.ServerRepo, adapter: Wexhook.Server.InMemory

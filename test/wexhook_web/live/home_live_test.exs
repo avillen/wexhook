@@ -12,7 +12,7 @@ defmodule WexhookWeb.HomeLiveTest do
 
   test "renders the page for a server fetching a server that doesn't exists", %{conn: conn} do
     id = "server_id"
-    conn = get(conn, "/" <> id)
+    conn = get(conn, "/share/" <> id)
     {:ok, _view, html} = live(conn)
 
     assert html =~ "Webhook URL"
@@ -27,7 +27,7 @@ defmodule WexhookWeb.HomeLiveTest do
     {:ok, server_pid} = Wexhook.new_server()
     id = Wexhook.get_server_id(server_pid)
 
-    conn = get(conn, "/" <> id)
+    conn = get(conn, "/share/" <> id)
     {:ok, _view, html} = live(conn)
 
     assert html =~ "Webhook URL"
