@@ -9,11 +9,11 @@
         <form class="mt-4">
           <div class="flex">
             <input type="text" value={@state.public_path} id="hook-url" class="focus:border-teal-500 focus:ring focus:ring-teal-500 rounded-l-md sm:text-sm w-full py-2 pl-2 bg-gray-100 border-gray-300" readonly>
-            <button type="button" id="copy-hook-url" class="hover:bg-teal-700 rounded-r-md sm:text-sm px-4 py-2 font-semibold text-white bg-teal-500">
+            <button type="button" class="hover:bg-teal-700 rounded-r-md sm:text-sm px-4 py-2 font-semibold text-white bg-teal-500" phx-click={JS.dispatch("wexhook:clipcopy_hook_url")}>
               Copy URL
             </button>
             <input type="text" value={@state.share_url} id="share-url" class="hidden">
-            <button type="button" id="copy-share-url" class="sm:text-sm px-4 py-2 font-semibold">
+            <button type="button" class="sm:text-sm px-4 py-2 font-semibold" phx-click={JS.dispatch("wexhook:clipcopy_share_url")}>
               Share
             </button>
           </div>
@@ -40,21 +40,3 @@
     </div>
   </div>
 </div>
-
-<!-- Copy to clipboard script -->
-<script>
-  const copyHookURLButton = document.getElementById('copy-hook-url');
-  const shareURLButton = document.getElementById('copy-share-url');
-
-  copyHookURLButton.addEventListener('click', () => {
-      document.getElementById('hook-url').select();
-      document.execCommand('copy');
-    });
-
-  shareURLButton.addEventListener('click', () => {
-      document.getElementById('share-url').classList.remove('hidden');
-      document.getElementById('share-url').select();
-      document.execCommand('copy');
-      document.getElementById('share-url').classList.add('hidden');
-    });
-</script>

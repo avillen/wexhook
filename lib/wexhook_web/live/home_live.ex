@@ -4,6 +4,7 @@ defmodule WexhookWeb.HomeLive do
   """
 
   use Phoenix.LiveView
+  alias Phoenix.LiveView.JS
 
   alias WexhookWeb.Components.HookCard
 

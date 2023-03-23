@@ -43,8 +43,19 @@ const shootConfetti = () => {
 };
 
 window.addEventListener("phx:request_received", (_e) => {
-  console.log("hola!");
   shootConfetti();
+});
+
+window.addEventListener("wexhook:clipcopy_hook_url", (_e) => {
+  document.getElementById('hook-url').select();
+  document.execCommand('copy');
+});
+
+window.addEventListener("wexhook:clipcopy_share_url", (_e) => {
+  document.getElementById('share-url').classList.remove('hidden');
+  document.getElementById('share-url').select();
+  document.execCommand('copy');
+  document.getElementById('share-url').classList.add('hidden');
 });
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
