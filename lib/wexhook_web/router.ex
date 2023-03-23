@@ -14,6 +14,12 @@ defmodule WexhookWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", WexhookWeb do
+    pipe_through :api
+
+    get "/status", StatusController, :show
+  end
+
   scope "/hook", WexhookWeb do
     pipe_through :api
 
