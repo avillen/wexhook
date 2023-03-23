@@ -1,6 +1,7 @@
 {
   "skip_files": [
     "lib/wexhook/application.ex",
+    "lib/wexhook/prom_ex.ex",
     "lib/wexhook/server.ex",
     "lib/wexhook_web/components/core_components.ex",
     "lib/wexhook_web/components/layouts.ex",

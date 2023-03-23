@@ -7,6 +7,13 @@
 # General application configuration
 import Config
 
+config :wexhook, Wexhook.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
+
 config :wexhook,
   hook_base_path: "http://localhost:4000/hook/",
   share_base_path: "http://localhost:4000/share/"
