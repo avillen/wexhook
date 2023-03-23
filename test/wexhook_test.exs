@@ -1,11 +1,21 @@
 defmodule WexhookTest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   alias Wexhook
 
   describe "new_server/1" do
     test "on success" do
       assert {:ok, _} = Wexhook.new_server("public_new_server_on_success")
+    end
+
+    test "on error" do
+      {:ok, _} = Wexhook.new_server("public_new_server_on_error")
+
+      assert capture_log(fn ->
+               assert {:error, _} = Wexhook.new_server("public_new_server_on_error")
+             end) =~ "Failed to start server"
     end
   end
 
@@ -100,9 +110,30 @@ defmodule WexhookTest do
 
   describe "get_server_id/1" do
     test "on success" do
-      {:ok, pid} = Wexhook.new_server("public_get_server_id_on_success")
+      {:ok, pid} = Wexhook.new_server("get_server_id_on_success")
 
-      assert "public_get_server_id_on_success" == Wexhook.get_server_id(pid)
+      assert "get_server_id_on_success" == Wexhook.get_server_id(pid)
+    end
+  end
+
+  describe "get_server_or_create/1" do
+    test "creates the server if it doesn't exists" do
+      assert {:ok, pid} =
+               Wexhook.get_server_or_create(
+                 "get_server_or_create_if_server_not_exists_on_success"
+               )
+
+      assert pid ==
+               Wexhook.get_server_by_id("get_server_or_create_if_server_not_exists_on_success")
+    end
+
+    test "fetches the server if it exists" do
+      {:ok, create_pid} = Wexhook.new_server("get_server_or_create_if_server_exists_on_success")
+
+      assert {:ok, server_pid} =
+               Wexhook.get_server_or_create("get_server_or_create_if_server_exists_on_success")
+
+      assert create_pid == server_pid
     end
   end
 

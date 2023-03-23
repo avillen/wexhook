@@ -20,6 +20,17 @@ defmodule Wexhook.ServerRepo do
   @callback get_request_count(server_pid) :: non_neg_integer()
   @callback get_id(server_pid) :: Server.id()
 
+  @spec child_spec(Keyword.t()) :: Supervisor.child_spec()
+  def child_spec(opts) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, [opts]},
+      type: :worker,
+      restart: :permanent,
+      shutdown: 500
+    }
+  end
+
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(opts \\ []) do
     @adapter.start_link(opts)

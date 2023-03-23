@@ -4,9 +4,11 @@ defmodule WexhookWeb.HookControllerTest do
   import Phoenix.ConnTest
 
   describe "POST /hook/:id" do
-    test "when the server doesn't exists", %{conn: conn} do
-      conn = post(conn, "/hook/123")
-      assert json_response(conn, 404) == %{"error" => "Server not found"}
+    test "when the server does not exists, creates a new one and adds the request", %{conn: conn} do
+      id = "123"
+      conn = post(conn, "/hook/" <> id)
+      assert json_response(conn, 200) == %{"ok" => id}
+      assert Wexhook.get_server_by_id(id) != nil
     end
 
     test "when the server exists, adds the request", %{conn: conn} do

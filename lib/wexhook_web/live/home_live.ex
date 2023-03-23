@@ -37,36 +37,23 @@ defmodule WexhookWeb.HomeLive do
       |> State.set_public_path(id)
       |> State.set_share_url(id)
 
-    state
-    |> State.get_server_pid()
-    |> Wexhook.subscribe_to_server()
+    Wexhook.subscribe_to_server(server_pid)
 
     {:noreply, assign(socket, :state, state)}
   end
 
   # Fetch server handler
   def handle_info({:fetch_server, id}, socket) do
-    server_pid =
-      case Wexhook.get_server_by_id(id) do
-        nil ->
-          {:ok, server_pid} = Wexhook.new_server(id)
-          server_pid
-
-        server_pid ->
-          server_pid
-      end
+    {:ok, pid} = Wexhook.get_server_or_create(id)
 
     state =
       socket
       |> WexhookWeb.get_state()
-      |> State.set_server_pid(server_pid)
+      |> State.set_server_pid(pid)
       |> State.set_public_path(id)
       |> State.set_share_url(id)
-      |> State.set_requests(Wexhook.get_requests(server_pid))
 
-    state
-    |> State.get_server_pid()
-    |> Wexhook.subscribe_to_server()
+    Wexhook.subscribe_to_server(pid)
 
     {:noreply, assign(socket, :state, state)}
   end

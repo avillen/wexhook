@@ -9,25 +9,21 @@ defmodule WexhookWeb.HookController do
   alias Wexhook.Support.Strings
 
   def hook(conn, %{"id" => id}) do
-    case Wexhook.get_server_by_id(id) do
-      nil ->
-        conn
-        |> put_status(404)
-        |> json(%{error: "Server not found"})
+    {:ok, pid} = Wexhook.get_server_or_create(id)
+    :ok = do_add_request(conn, pid)
 
-      pid ->
-        request_id = Strings.random_string()
-        method = conn.method
-        headers = conn.req_headers
-        body = conn.body_params
+    conn
+    |> put_status(:ok)
+    |> json(%{ok: id})
+  end
 
-        request = Request.new(request_id, method, headers, body, DateTime.utc_now())
+  defp do_add_request(conn, pid) do
+    request_id = Strings.random_string()
+    method = Map.fetch!(conn, :method)
+    headers = Map.fetch!(conn, :req_headers)
+    body = Map.fetch!(conn, :body_params)
 
-        Wexhook.add_request(pid, request)
-
-        conn
-        |> put_status(200)
-        |> json(%{ok: id})
-    end
+    request = Request.new(request_id, method, headers, body, DateTime.utc_now())
+    Wexhook.add_request(pid, request)
   end
 end

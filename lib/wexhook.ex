@@ -11,12 +11,21 @@ defmodule Wexhook do
 
   alias Wexhook.Support.Strings
 
+  require Logger
+
   @type id :: String.t()
   @type request :: Request.t()
 
-  @spec new_server(id) :: {:ok, pid}
+  @spec new_server(id) :: {:ok, pid} | {:error, term()}
   def new_server(id \\ Strings.random_string()) do
-    ServersSupervisor.start_server(id)
+    case ServersSupervisor.start_server(id) do
+      {:ok, pid} ->
+        {:ok, pid}
+
+      {:error, reason} ->
+        Logger.error("Failed to start server: #{inspect(reason)}")
+        {:error, reason}
+    end
   end
 
   @spec add_request(pid, request) :: :ok
@@ -73,6 +82,18 @@ defmodule Wexhook do
   @spec get_server_by_id(id) :: pid | nil
   def get_server_by_id(id) do
     ServersSupervisor.get_server_pid_by_id(id)
+  end
+
+  @spec get_server_or_create(id) :: {:ok, pid} | {:error, term()}
+  def get_server_or_create(id) do
+    with nil <- get_server_by_id(id),
+         {:error, reason} <- new_server(id) do
+      Logger.error("Failed to create server with id #{inspect(id)}: #{inspect(reason)}")
+      {:error, reason}
+    else
+      pid when is_pid(pid) -> {:ok, pid}
+      {:ok, pid} -> {:ok, pid}
+    end
   end
 
   @spec subscribe_to_server(pid) :: :ok

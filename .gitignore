@@ -35,3 +35,5 @@ wexhook-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore .DS_Store files in case you're on macOS.
+.DS_Store

@@ -23,8 +23,8 @@ defmodule WexhookWeb.HomeLive.State do
     share_url
   )a
 
-  @base_path Application.compile_env!(:wexhook, :hook_base_path)
-  @share_path Application.compile_env!(:wexhook, :share_base_path)
+  @hook_base_path Application.compile_env!(:wexhook, :hook_base_path)
+  @share_base_path Application.compile_env!(:wexhook, :share_base_path)
 
   @spec new() :: t()
   def new do
@@ -43,7 +43,7 @@ defmodule WexhookWeb.HomeLive.State do
 
   @spec set_public_path(t(), public_path) :: t()
   def set_public_path(%__MODULE__{} = state, public_path) do
-    %{state | public_path: @base_path <> public_path}
+    %{state | public_path: @hook_base_path <> public_path}
   end
 
   @spec add_request(t(), request) :: t()
@@ -53,7 +53,7 @@ defmodule WexhookWeb.HomeLive.State do
 
   @spec set_share_url(t(), public_path) :: t()
   def set_share_url(%__MODULE__{} = state, public_path) do
-    %{state | share_url: @share_path <> public_path}
+    %{state | share_url: @share_base_path <> public_path}
   end
 
   @spec set_requests(t(), [request]) :: t()
