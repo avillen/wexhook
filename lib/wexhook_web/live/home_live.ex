@@ -53,6 +53,7 @@ defmodule WexhookWeb.HomeLive do
       |> State.set_server_pid(pid)
       |> State.set_public_path(id)
       |> State.set_share_url(id)
+      |> State.set_requests(Wexhook.get_requests(pid))
 
     Wexhook.subscribe_to_server(pid)
 

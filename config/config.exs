@@ -15,8 +15,8 @@ config :wexhook, Wexhook.PromEx,
   metrics_server: :disabled
 
 config :wexhook,
-  hook_base_path: "http://localhost:4000/hook/",
-  share_base_path: "http://localhost:4000/share/"
+  hook_base_path: "http://0.0.0.0:4000/hook/",
+  share_base_path: "http://0.0.0.0:4000/share/"
 
 # Configure server adapter
 config :wexhook, Wexhook.ServerRepo, adapter: Wexhook.Server.InMemory

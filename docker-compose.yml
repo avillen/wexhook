@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+   wexhook:
+      build:
+         context: .
+      environment:
+         SECRET_KEY_BASE: '2zYGu60JzO6pe/tUoLwe1G6PkA7HL2UaZC+dNdQ+1oSJGz8/SoxFFOy3H8xvvL0G'
+      ports:
+         - '4000:4000'
+      container_name: wexhook
