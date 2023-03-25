@@ -20,13 +20,18 @@ defmodule WexhookWeb.Router do
     get "/status", StatusController, :show
   end
 
-  scope "/hook", WexhookWeb do
+  scope "/wexhook/hook", WexhookWeb do
     pipe_through :api
 
     post "/:id", HookController, :hook
   end
 
   scope "/", WexhookWeb do
+    pipe_through :browser
+    live "/", HomeLive
+  end
+
+  scope "/wexhook", WexhookWeb do
     pipe_through :browser
 
     live "/", HomeLive

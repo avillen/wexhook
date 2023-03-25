@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Enable home view on `/wexhook` URL
+
+### Changed
+- Added `/wexhook` prefix on `share` and `hook` URLs
+- Change socket connection path from `/live` to `/wexhook/live`
+
 ## 0.1.0 (2023-03-24)
 
 Initial version of the service
