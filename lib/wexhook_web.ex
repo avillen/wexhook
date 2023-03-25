@@ -19,6 +19,13 @@ defmodule WexhookWeb do
 
   def get_state(socket), do: socket.assigns.state
 
+  def get_host_uri(socket) do
+    case socket.host_uri do
+      :not_mounted_at_router -> "http://0.0.0.0:4000"
+      host_uri -> host_uri
+    end
+  end
+
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
   def router do

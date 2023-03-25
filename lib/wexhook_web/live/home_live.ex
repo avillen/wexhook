@@ -35,8 +35,8 @@ defmodule WexhookWeb.HomeLive do
       socket
       |> WexhookWeb.get_state()
       |> State.set_server_pid(server_pid)
-      |> State.set_public_path(id)
-      |> State.set_share_url(id)
+      |> State.set_public_path(id, WexhookWeb.get_host_uri(socket))
+      |> State.set_share_url(id, WexhookWeb.get_host_uri(socket))
 
     Wexhook.subscribe_to_server(server_pid)
 
@@ -51,8 +51,8 @@ defmodule WexhookWeb.HomeLive do
       socket
       |> WexhookWeb.get_state()
       |> State.set_server_pid(pid)
-      |> State.set_public_path(id)
-      |> State.set_share_url(id)
+      |> State.set_public_path(id, WexhookWeb.get_host_uri(socket))
+      |> State.set_share_url(id, WexhookWeb.get_host_uri(socket))
       |> State.set_requests(Wexhook.get_requests(pid))
 
     Wexhook.subscribe_to_server(pid)

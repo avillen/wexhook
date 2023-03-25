@@ -41,9 +41,9 @@ defmodule WexhookWeb.HomeLive.State do
     %{state | server_pid: server_pid}
   end
 
-  @spec set_public_path(t(), public_path) :: t()
-  def set_public_path(%__MODULE__{} = state, public_path) do
-    %{state | public_path: @hook_base_path <> public_path}
+  @spec set_public_path(t(), public_path, URI.t()) :: t()
+  def set_public_path(%__MODULE__{} = state, public_path, host_uri) do
+    %{state | public_path: URI.to_string(host_uri) <> @hook_base_path <> public_path}
   end
 
   @spec add_request(t(), request) :: t()
@@ -51,9 +51,9 @@ defmodule WexhookWeb.HomeLive.State do
     %{state | requests: [request | state.requests]}
   end
 
-  @spec set_share_url(t(), public_path) :: t()
-  def set_share_url(%__MODULE__{} = state, public_path) do
-    %{state | share_url: @share_base_path <> public_path}
+  @spec set_share_url(t(), public_path, URI.t()) :: t()
+  def set_share_url(%__MODULE__{} = state, public_path, host_uri) do
+    %{state | share_url: URI.to_string(host_uri) <> @share_base_path <> public_path}
   end
 
   @spec set_requests(t(), [request]) :: t()

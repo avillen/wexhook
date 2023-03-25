@@ -5,6 +5,7 @@
 ### Added
 - Enable home view on `/wexhook` URL
 - Add fly.io link to the README.md
+- Calculate URLs based on the `host_uri`
 
 ### Changed
 - Added `/wexhook` prefix on `share` and `hook` URLs

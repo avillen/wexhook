@@ -27,9 +27,10 @@ defmodule WexhookWeb.HomeLive.StateTest do
     test "sets the public path" do
       state = State.new()
       path = "/path/to/public"
-      url = @hook_base_path <> path
+      uri = URI.parse("http://google.com")
+      url = URI.to_string(uri) <> @hook_base_path <> path
 
-      assert %State{public_path: ^url} = State.set_public_path(state, path)
+      assert %State{public_path: ^url} = State.set_public_path(state, path, uri)
     end
   end
 
@@ -46,9 +47,10 @@ defmodule WexhookWeb.HomeLive.StateTest do
     test "sets the share url" do
       state = State.new()
       path = "/path/to/public"
-      url = @share_base_path <> path
+      uri = URI.parse("http://google.com")
+      url = URI.to_string(uri) <> @share_base_path <> path
 
-      assert %State{share_url: ^url} = State.set_share_url(state, path)
+      assert %State{share_url: ^url} = State.set_share_url(state, path, uri)
     end
   end
 
