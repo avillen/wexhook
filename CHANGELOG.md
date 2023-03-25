@@ -2,7 +2,15 @@
 
 ## Unreleased
 
+## 0.3.1 (2023-03-25)
+
+### Fixed
+- We were using a wrong debian bullseye version that were not compatible with
+  latests elixir/erlang versions
+
 ## 0.3.0 (2023-03-25)
+
+### Added
 - Upgrade elixir/erlang/dependencies
 
 ## 0.2.0 (2023-03-25)
