@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0 (2023-03-25)
+
 ### Added
 - Add footer with github link
 - Redesign of request data
