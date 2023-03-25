@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0 (2023-03-25)
+
 ### Added
 - Enable home view on `/wexhook` URL
 - Add fly.io link to the README.md
