@@ -17,6 +17,10 @@ defmodule Wexhook.MixProject do
           "coveralls.html": :test
         ]
       ],
+      dialyzer: [
+        plt_add_apps: [:mix, :ex_unit],
+        check_plt: true
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -59,7 +63,7 @@ defmodule Wexhook.MixProject do
 
       # Testing
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test}
     ]
   end
