@@ -22,11 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
-      # Specify the OTP and Elixir versions to use when building
-      # and running the workflow steps.
       matrix:
-        otp: ['25.1.1']       # Define the OTP version [required]
-        elixir: ['1.14.1']    # Define the elixir version [required]
+        otp: ['25.1.1']
+        elixir: ['1.14.1']
     steps:
     # Step: Setup Elixir + Erlang image as the base.
     - name: Set up Elixir
@@ -51,9 +49,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-mix-${{ env.cache-name }}-
 
-    # Step: Define how to cache the `_build` directory. After the first run,
-    # this speeds up tests runs a lot. This includes not re-compiling our
-    # project's downloaded deps every run.
+    # Step: Define how to cache the `_build` directory. This includes not
+    # re-compiling our project's downloaded deps every run.
     - name: Cache compiled build
       id: cache-build
       uses: actions/cache@v3
@@ -66,22 +63,40 @@ jobs:
           ${{ runner.os }}-mix-${{ env.cache-name }}-
           ${{ runner.os }}-mix-
 
-    # Step: Download project dependencies. If unchanged, uses
-    # the cached version.
+    # Don't cache PLTs based on mix.lock hash, as Dialyzer can incrementally update even old ones
+    # Cache key based on Elixir & Erlang version (also useful when running in matrix)
+    - name: Restore PLT cache
+      uses: actions/cache@v2
+      id: plt_cache
+      with:
+        key: |
+          ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-plt
+        restore-keys: |
+          ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-plt
+        path: |
+          priv/plts
+
+    # Create PLTs if no cache was found
+    - name: Create PLTs
+      if: steps.plt_cache.outputs.cache-hit != 'true'
+      run: mix dialyzer --plt
+
     - name: Install dependencies
       run: mix deps.get
 
-    # Step: Compile the project treating any warnings as errors.
-    # Customize this step if a different behavior is desired.
     - name: Compiles without warnings
       run: mix compile --warnings-as-errors
 
-    # Step: Check that the checked in code has already been formatted.
-    # This step fails if something was found unformatted.
-    # Customize this step as desired.
     - name: Check Formatting
       run: mix format --check-formatted
 
-    # Step: Execute the tests.
     - name: Run tests
-      run: mix test
+      run: mix coveralls.github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run credo
+      run: mix credo --strict
+
+    - name: Run dialyzer
+      run: mix dialyzer --format github
