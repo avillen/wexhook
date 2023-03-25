@@ -7,26 +7,26 @@ defmodule WexhookWeb.Components.HookCard do
 
   def base(assigns) do
     ~H"""
-    <div class="flex items-center justify-between">
-      <div class="flex-shrink-0">
-        <svg
-          class="w-5 h-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+    <div class="flex items-center justify-between py-2">
+      <div class="flex items-center">
+        <svg class="w-6 h-6 mr-2 text-teal-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
           </path>
         </svg>
-      </div>
-      <div class="divide-y flex flex-col ml-4">
-        <div class="text-sm font-bold text-gray-900">
-          <%= format_date(@request.created_at) %>
+        <div>
+          <p class="text-sm font-medium text-gray-900"><%= @request.method %></p>
+          <p class="text-xs text-gray-500"><%= format_date(@request.created_at) %></p>
         </div>
-        <div class="text-sm font-medium text-gray-900"><%= @request.method %></div>
-        <div class="text-sm font-medium text-gray-900"><%= inspect(@request.headers) %></div>
-        <div class="text-sm font-semibold text-gray-900"><%= inspect(@request.body) %></div>
+      </div>
+    </div>
+    <div class="p-2">
+      <div class="flex flex-col">
+        <p class="text-sm font-medium text-gray-900">Headers:</p>
+        <pre class="rounded-md max-h-32 p-2 overflow-auto text-xs text-gray-500 bg-gray-100"><%= inspect(@request.headers) %></pre>
+      </div>
+      <div class="flex flex-col mt-2">
+        <p class="text-sm font-medium text-gray-900">Body:</p>
+        <pre class="rounded-md max-h-32 p-2 overflow-auto text-xs text-gray-500 bg-gray-100"><%= inspect(@request.body) %></pre>
       </div>
     </div>
     """

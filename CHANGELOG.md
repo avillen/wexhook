@@ -4,6 +4,7 @@
 
 ### Added
 - Add footer with github link
+- Redesign of request data
 
 ## 0.3.1 (2023-03-25)
 
