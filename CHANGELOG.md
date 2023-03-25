@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- Add footer with github link
+
 ## 0.3.1 (2023-03-25)
 
 ### Fixed
