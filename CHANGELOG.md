@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.5.0 (2023-03-26)
+
+### Added
+- Form to modify hook response
+
 ## 0.4.0 (2023-03-25)
 
 ### Added
