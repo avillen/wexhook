@@ -53,6 +53,16 @@ defmodule Wexhook.Server.InMemory do
     GenServer.call(pid, :get_id)
   end
 
+  @impl Wexhook.ServerRepo
+  def get_response(pid \\ @name) do
+    GenServer.call(pid, :get_response)
+  end
+
+  @impl Wexhook.ServerRepo
+  def set_response(pid \\ @name, response) do
+    GenServer.call(pid, {:set_response, response})
+  end
+
   @impl true
   def init(id) do
     {:ok, Server.new(id)}
@@ -95,5 +105,17 @@ defmodule Wexhook.Server.InMemory do
   @impl true
   def handle_call(:get_id, _from, state) do
     {:reply, Server.get_id(state), state}
+  end
+
+  @impl true
+  def handle_call(:get_response, _from, state) do
+    {:reply, Server.get_response(state), state}
+  end
+
+  @impl true
+  def handle_call({:set_response, response}, _from, state) do
+    state = Server.set_response(state, response)
+
+    {:reply, state.response, state}
   end
 end

@@ -19,6 +19,8 @@ defmodule Wexhook.ServerRepo do
   @callback delete_requests(server_pid) :: [Server.request()]
   @callback get_request_count(server_pid) :: non_neg_integer()
   @callback get_id(server_pid) :: Server.id()
+  @callback get_response(server_pid) :: Server.response()
+  @callback set_response(server_pid, Server.response()) :: :ok
 
   @spec child_spec(Keyword.t()) :: Supervisor.child_spec()
   def child_spec(opts) do
@@ -69,5 +71,15 @@ defmodule Wexhook.ServerRepo do
   @spec get_id(server_pid) :: Server.id()
   def get_id(server_pid \\ @name) do
     @adapter.get_id(server_pid)
+  end
+
+  @spec get_response(server_pid) :: Server.response()
+  def get_response(server_pid \\ @name) do
+    @adapter.get_response(server_pid)
+  end
+
+  @spec set_response(server_pid, Server.response()) :: Server.response()
+  def set_response(server_pid \\ @name, response) do
+    @adapter.set_response(server_pid, response)
   end
 end
