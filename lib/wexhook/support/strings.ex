@@ -3,7 +3,7 @@ defmodule Wexhook.Support.Strings do
   A module for string manipulation.
   """
 
-  def random_string do
-    Base.encode32(:crypto.strong_rand_bytes(10))
+  def random_string(n \\ 10) do
+    Base.encode32(:crypto.strong_rand_bytes(n))
   end
 end
