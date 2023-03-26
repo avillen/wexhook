@@ -70,4 +70,17 @@ defmodule Wexhook.Server.InMemoryTest do
 
     assert "public" = Server.get_id(pid)
   end
+
+  test "set_response/1" do
+    {:ok, pid} = Server.start_link(id: "public")
+
+    assert %{body: "", headers: [], status: 200} ==
+             Server.set_response(pid, %{status: 200, headers: [], body: ""})
+  end
+
+  test "get_response/0" do
+    {:ok, pid} = Server.start_link(id: "public")
+
+    assert %{status: 200, headers: [], body: ~s({"status":"ok"})} = Server.get_response(pid)
+  end
 end

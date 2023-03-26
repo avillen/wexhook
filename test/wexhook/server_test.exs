@@ -1,8 +1,11 @@
 defmodule Wexhook.ServerTest do
   use ExUnit.Case, async: true
 
-  alias Wexhook.Request
-  alias Wexhook.Server
+  alias Wexhook.{
+    Request,
+    Response,
+    Server
+  }
 
   @id "public"
 
@@ -10,7 +13,8 @@ defmodule Wexhook.ServerTest do
     test "returns a new server" do
       assert %Server{
                id: @id,
-               requests: []
+               requests: [],
+               response: Response.new()
              } == Server.new(@id)
     end
   end
@@ -52,7 +56,8 @@ defmodule Wexhook.ServerTest do
 
       assert %Server{
                id: @id,
-               requests: []
+               requests: [],
+               response: Response.new()
              } == Server.delete_request(Server.add_request(server, request), "id")
     end
   end
@@ -64,7 +69,8 @@ defmodule Wexhook.ServerTest do
 
       assert %Server{
                id: @id,
-               requests: []
+               requests: [],
+               response: Response.new()
              } == Server.delete_requests(Server.add_request(server, request))
     end
   end
@@ -83,6 +89,30 @@ defmodule Wexhook.ServerTest do
       server = Server.new(@id)
 
       assert @id == Server.get_id(server)
+    end
+  end
+
+  describe "set_response/2" do
+    test "sets the response" do
+      server = Server.new(@id)
+      response = Response.new(200, [], "body")
+
+      assert %Server{
+               id: @id,
+               requests: [],
+               response: ^response
+             } = Server.set_response(server, response)
+    end
+  end
+
+  describe "get_response/1" do
+    test "returns the response" do
+      server = Server.new(@id)
+      response = Response.new(200, [], "body")
+
+      server = Server.set_response(server, response)
+
+      assert ^response = Server.get_response(server)
     end
   end
 end

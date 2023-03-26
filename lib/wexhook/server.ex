@@ -3,26 +3,33 @@ defmodule Wexhook.Server do
   Server entity.
   """
 
-  alias Wexhook.Request
+  alias Wexhook.{
+    Request,
+    Response
+  }
 
   @type id :: String.t()
   @type request :: Request.t()
+  @type response :: Response.t()
 
   @type t :: %__MODULE__{
           id: id,
-          requests: [request]
+          requests: [request],
+          response: response
         }
 
   defstruct ~w(
     id
     requests
+    response
   )a
 
   @spec new(id) :: t
   def new(id) do
     %__MODULE__{
       requests: [],
-      id: id
+      id: id,
+      response: Response.new()
     }
   end
 
@@ -68,5 +75,18 @@ defmodule Wexhook.Server do
   @spec get_id(t) :: id
   def get_id(server) do
     server.id
+  end
+
+  @spec set_response(t, response) :: t
+  def set_response(server, response) do
+    %__MODULE__{
+      server
+      | response: response
+    }
+  end
+
+  @spec get_response(t) :: response
+  def get_response(server) do
+    server.response
   end
 end

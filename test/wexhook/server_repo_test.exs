@@ -1,6 +1,7 @@
 defmodule Wexhook.ServerRepoTest do
   use ExUnit.Case, async: true
 
+  alias Wexhook.Response
   alias Wexhook.ServerRepo
   alias Wexhook.Support.Strings
 
@@ -50,5 +51,20 @@ defmodule Wexhook.ServerRepoTest do
     opts = [id: id]
     {:ok, pid} = ServerRepo.start_link(opts)
     assert id == ServerRepo.get_id(pid)
+  end
+
+  test "set_response/2" do
+    opts = [id: Strings.random_string()]
+    {:ok, pid} = ServerRepo.start_link(opts)
+    response = Response.new(200, %{}, "body")
+    assert response == ServerRepo.set_response(pid, response)
+  end
+
+  test "get_response/1" do
+    opts = [id: Strings.random_string()]
+    {:ok, pid} = ServerRepo.start_link(opts)
+    response = Response.new(200, %{}, "body")
+    ServerRepo.set_response(pid, response)
+    assert response == ServerRepo.get_response(pid)
   end
 end

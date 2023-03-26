@@ -5,6 +5,7 @@ defmodule Wexhook do
 
   alias __MODULE__.{
     Request,
+    Response,
     ServerRepo,
     ServersSupervisor
   }
@@ -94,6 +95,16 @@ defmodule Wexhook do
       pid when is_pid(pid) -> {:ok, pid}
       {:ok, pid} -> {:ok, pid}
     end
+  end
+
+  @spec set_server_response(pid, Response.t()) :: Response.t()
+  def set_server_response(pid, response) do
+    ServerRepo.set_response(pid, response)
+  end
+
+  @spec get_server_response(pid) :: Response.t()
+  def get_server_response(pid) do
+    ServerRepo.get_response(pid)
   end
 
   @spec subscribe_to_server(pid) :: :ok

@@ -137,6 +137,24 @@ defmodule WexhookTest do
     end
   end
 
+  describe "set_server_response/2" do
+    test "on success" do
+      {:ok, pid} = Wexhook.new_server("set_server_response_on_success")
+
+      response = Wexhook.Response.new()
+
+      assert response == Wexhook.set_server_response(pid, response)
+    end
+  end
+
+  describe "get_server_response/1" do
+    test "on success" do
+      {:ok, pid} = Wexhook.new_server("get_server_response_on_success")
+
+      assert %Wexhook.Response{} = Wexhook.get_server_response(pid)
+    end
+  end
+
   describe "subscribe_to_server/2" do
     test "on success" do
       {:ok, pid} = Wexhook.new_server("public_subscribe_to_server_on_success")

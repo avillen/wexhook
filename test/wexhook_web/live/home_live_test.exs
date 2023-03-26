@@ -37,4 +37,20 @@ defmodule WexhookWeb.HomeLiveTest do
 
     assert_receive {_, {:push_event, "request_received", %{}}}
   end
+
+  test "updates the response when the form is filled and the save button pressed", %{conn: conn} do
+    {:ok, server_pid} = Wexhook.new_server()
+    id = Wexhook.get_server_id(server_pid)
+
+    conn = get(conn, ~p"/wexhook/share/#{id}")
+    {:ok, view, _html} = live(conn)
+
+    html =
+      view
+      |> element(~s{[id="save_response"]})
+      |> render_submit(%{"http-code" => 404, "response-body" => "hello"})
+
+    assert html =~ "404"
+    assert html =~ "hello"
+  end
 end
