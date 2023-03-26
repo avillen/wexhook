@@ -32,7 +32,10 @@
               Share
             </button>
           </div>
-          <div class="mt-4">
+        </form>
+
+        <form id="save_response" class="mt-4" phx-submit="update_response">
+          <div>
             <label for="http-code" class="block text-sm font-medium text-gray-700">
               HTTP Code
             </label>
@@ -42,7 +45,7 @@
               name="http-code"
               min="100"
               max="599"
-              placeholder="200"
+              placeholder={@state.response.status}
               class="focus:ring-teal-500 focus:border-teal-500 shadow-sm sm:text-sm rounded-md block w-full mt-1 border-gray-300"
             />
           </div>
@@ -54,10 +57,17 @@
               id="response-body"
               name="response-body"
               rows="3"
-              placeholder="{}"
+              placeholder={@state.response.body}
               class="focus:ring-teal-500 focus:border-teal-500 shadow-sm sm:text-sm rounded-md block w-full mt-1 border-gray-300"
+            />
+          </div>
+          <div class="mt-4">
+            <button
+              type="submit"
+              class="hover:bg-teal-700 rounded-md sm:text-sm px-4 py-2 mt-4 ml-auto font-semibold text-white bg-teal-500"
             >
-            </textarea>
+              Save
+            </button>
           </div>
         </form>
       </div>

@@ -3,15 +3,17 @@ defmodule WexhookWeb.HomeLive.State do
   The state of the home live view.
   """
 
-  alias Wexhook.Request
+  alias Wexhook.{Request, Response}
 
   @type public_path :: String.t()
   @type share_url :: String.t()
   @type request :: Request.t()
+  @type response :: Response.t()
 
   @type t :: %__MODULE__{
           public_path: public_path,
           requests: [request],
+          response: response,
           server_pid: pid() | nil,
           share_url: share_url
         }
@@ -19,6 +21,7 @@ defmodule WexhookWeb.HomeLive.State do
   defstruct ~w(
     public_path
     requests
+    response
     server_pid
     share_url
   )a
@@ -32,7 +35,8 @@ defmodule WexhookWeb.HomeLive.State do
       server_pid: nil,
       public_path: "",
       share_url: "",
-      requests: []
+      requests: [],
+      response: Response.new()
     }
   end
 
@@ -84,5 +88,15 @@ defmodule WexhookWeb.HomeLive.State do
   @spec get_request(t(), String.t()) :: request | nil
   def get_request(%__MODULE__{requests: requests}, id) do
     Enum.find(requests, &(&1.id == id))
+  end
+
+  @spec set_response(t(), response) :: t()
+  def set_response(%__MODULE__{} = state, response) do
+    %{state | response: response}
+  end
+
+  @spec get_response(t()) :: response
+  def get_response(%__MODULE__{response: response}) do
+    response
   end
 end

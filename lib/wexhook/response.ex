@@ -20,7 +20,7 @@ defmodule Wexhook.Response do
   )a
 
   @spec new(status, headers, body) :: t()
-  def new(status \\ 200, headers \\ [], body \\ "{\"status\": \"ok\"}") do
+  def new(status \\ 200, headers \\ [], body \\ ~s({"status":"ok"})) do
     %__MODULE__{
       status: status,
       headers: headers,

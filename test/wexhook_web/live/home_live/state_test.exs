@@ -112,4 +112,26 @@ defmodule WexhookWeb.HomeLive.StateTest do
       assert ^request = State.get_request(State.add_request(state, request), "id")
     end
   end
+
+  describe "set_response/2" do
+    test "sets the response for the given request" do
+      state = State.new()
+      request = Request.new("id", "GET", [], "{}", DateTime.utc_now())
+      response = %{}
+
+      assert %State{response: ^response} =
+               State.set_response(State.add_request(state, request), response)
+    end
+  end
+
+  describe "get_response/1" do
+    test "returns the response for the given request" do
+      state = State.new()
+      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
+      response = %{}
+
+      assert ^response =
+               State.get_response(State.set_response(State.add_request(state, request), response))
+    end
+  end
 end
