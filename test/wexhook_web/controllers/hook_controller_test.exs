@@ -7,7 +7,7 @@ defmodule WexhookWeb.HookControllerTest do
     test "when the server does not exists, creates a new one and adds the request", %{conn: conn} do
       id = "123"
       conn = post(conn, ~p"/wexhook/hook/#{id}")
-      assert json_response(conn, 200) == %{"ok" => id}
+      assert json_response(conn, 200) == %{"status" => "ok"}
       assert Wexhook.get_server_by_id(id) != nil
     end
 
@@ -16,7 +16,7 @@ defmodule WexhookWeb.HookControllerTest do
       id = Wexhook.get_server_id(server_pid)
 
       conn = post(conn, ~p"/wexhook/hook/#{id}")
-      assert json_response(conn, 200) == %{"ok" => id}
+      assert json_response(conn, 200) == %{"status" => "ok"}
     end
   end
 end

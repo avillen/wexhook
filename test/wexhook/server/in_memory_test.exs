@@ -81,6 +81,6 @@ defmodule Wexhook.Server.InMemoryTest do
   test "get_response/0" do
     {:ok, pid} = Server.start_link(id: "public")
 
-    assert %{status: 200, headers: [], body: ""} = Server.get_response(pid)
+    assert %{status: 200, headers: [], body: "{\"status\": \"ok\"}"} = Server.get_response(pid)
   end
 end

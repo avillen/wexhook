@@ -5,16 +5,22 @@ defmodule WexhookWeb.HookController do
 
   use WexhookWeb, :controller
 
-  alias Wexhook.Request
+  alias Wexhook.{Request, Response}
   alias Wexhook.Support.Strings
+
+  alias __MODULE__.Serializer
 
   def hook(conn, %{"id" => id}) do
     {:ok, pid} = Wexhook.get_server_or_create(id)
     :ok = do_add_request(conn, pid)
 
+    response = Wexhook.get_server_response(pid)
+    status = Response.get_status(response)
+    body = Response.get_body(response)
+
     conn
-    |> put_status(:ok)
-    |> json(%{ok: id})
+    |> put_status(status)
+    |> json(Serializer.parse_body(body))
   end
 
   defp do_add_request(conn, pid) do
