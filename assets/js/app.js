@@ -20,32 +20,14 @@ import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
-import topbar from "../vendor/topbar"
-
-const shootConfetti = () => {
-  const colors = ["#00bcd2", "#e0105e", "#fcf801"]
-
-  confetti({
-    particleCount: 100,
-    angle: 60,
-    spread: 55,
-    origin: { x: 0 },
-    colors
-  })
-
-  confetti({
-    particleCount: 100,
-    angle: 120,
-    spread: 55,
-    origin: { x: 1 },
-    colors
-  })
-};
+import shootConfetti from "./app/confetti.js"
+import {darkExpected, initDarkMode} from "./app/darkmode.js"
 
 window.addEventListener("phx:request_received", (_e) => {
   shootConfetti();
 });
 
+// Copy to clipboard
 window.addEventListener("wexhook:clipcopy_hook_url", (_e) => {
   document.getElementById('hook-url').select();
   document.execCommand('copy');
@@ -58,13 +40,17 @@ window.addEventListener("wexhook:clipcopy_share_url", (_e) => {
   document.getElementById('share-url').classList.add('hidden');
 });
 
+// Dark mode handling
+window.addEventListener("toogle-darkmode", (_e) => {
+  if (darkExpected()) localStorage.theme = 'light';
+  else localStorage.theme = 'dark';
+  initDarkMode();
+})
+
+initDarkMode();
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/wexhook/live", Socket, {params: {_csrf_token: csrfToken}})
-
-// Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
-window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
-window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()

@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Add darkmode
 
 ## 0.5.0 (2023-03-26)
 

@@ -3,3 +3,15 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+.toggle-checkbox:checked {
+  transform: translateX(100%);
+}
+
+.toggle-checkbox:focus + .toggle-label {
+  outline: 2px solid rgba(156, 163, 175, 0.45);
+}
+
+.toggle-label {
+  transition: background-color 0.2s ease-in-out;
+}

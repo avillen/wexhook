@@ -4,14 +4,18 @@ defmodule WexhookWeb.HomeLive do
   """
 
   use Phoenix.LiveView
-  alias Phoenix.LiveView.JS
 
-  alias WexhookWeb.Components.HookCard
+  alias WexhookWeb.Components.{
+    DarkmodeToggle,
+    HookCard
+  }
 
   alias __MODULE__.{
     Parser,
     State
   }
+
+  alias Phoenix.LiveView.JS
 
   def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
