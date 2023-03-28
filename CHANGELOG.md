@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.6.1 (2023-03-28)
+
+### Fixed
+- Static endpoint is now exposed under `/wexhook` to avoid issues under proxies
+
 ## 0.6.0 (2023-03-28)
 
 ### Added
