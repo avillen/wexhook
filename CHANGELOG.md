@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Use of temporary assigns to store the requests in the LV
 
 ## 0.6.1 (2023-03-28)
 

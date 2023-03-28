@@ -22,7 +22,9 @@ defmodule WexhookWeb.HomeLive do
       Process.send(self(), {:fetch_server, id}, [])
     end
 
-    {:ok, assign(socket, :state, State.new())}
+    socket = update_socket(socket, State.new(), [])
+
+    {:ok, socket, temporary_assigns: [requests: []]}
   end
 
   def mount(_params, _session, socket) do
@@ -30,7 +32,9 @@ defmodule WexhookWeb.HomeLive do
       Process.send(self(), :create_server, [])
     end
 
-    {:ok, assign(socket, :state, State.new())}
+    socket = update_socket(socket, State.new(), [])
+
+    {:ok, socket, temporary_assigns: [requests: []]}
   end
 
   # Create server handler
@@ -53,19 +57,18 @@ defmodule WexhookWeb.HomeLive do
 
     Wexhook.subscribe_to_server(server_pid)
 
-    {:noreply, assign(socket, :state, state)}
+    socket = update_socket(socket, state, Wexhook.get_requests(server_pid))
+
+    {:noreply, socket}
   end
 
   # PubSub :request handler
   def handle_info({:request, request}, socket) do
-    state =
-      socket
-      |> WexhookWeb.get_state()
-      |> State.add_request(request)
+    state = WexhookWeb.get_state(socket)
 
     socket =
       socket
-      |> assign(:state, state)
+      |> update_socket(state, [request])
       |> push_event("request_received", %{})
 
     {:noreply, socket}
@@ -93,13 +96,18 @@ defmodule WexhookWeb.HomeLive do
     {:noreply, assign(socket, :state, state)}
   end
 
+  defp update_socket(socket, state, requests) do
+    socket
+    |> assign(:requests, requests)
+    |> assign(:state, state)
+  end
+
   defp load_state(socket, server_pid, id) do
     socket
     |> WexhookWeb.get_state()
     |> State.set_server_pid(server_pid)
     |> State.set_public_path(id, WexhookWeb.get_host_uri(socket))
     |> State.set_share_url(id, WexhookWeb.get_host_uri(socket))
-    |> State.set_requests(Wexhook.get_requests(server_pid))
     |> State.set_response(Wexhook.get_server_response(server_pid))
   end
 end

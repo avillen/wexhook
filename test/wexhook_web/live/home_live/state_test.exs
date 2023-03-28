@@ -3,8 +3,6 @@ defmodule WexhookWeb.HomeLive.StateTest do
 
   alias WexhookWeb.HomeLive.State
 
-  alias Wexhook.Request
-
   @hook_base_path Application.compile_env!(:wexhook, :hook_base_path)
   @share_base_path Application.compile_env!(:wexhook, :share_base_path)
 
@@ -34,15 +32,6 @@ defmodule WexhookWeb.HomeLive.StateTest do
     end
   end
 
-  describe "add_request/2" do
-    test "adds a request to the state" do
-      state = State.new()
-      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
-
-      assert %State{requests: [^request]} = State.add_request(state, request)
-    end
-  end
-
   describe "set_share_url/1" do
     test "sets the share url" do
       state = State.new()
@@ -51,19 +40,6 @@ defmodule WexhookWeb.HomeLive.StateTest do
       url = URI.to_string(uri) <> @share_base_path <> path
 
       assert %State{share_url: ^url} = State.set_share_url(state, path, uri)
-    end
-  end
-
-  describe "set_requests/2" do
-    test "sets the requests" do
-      state = State.new()
-
-      requests = [
-        Request.new("id", "GET", [], "body", DateTime.utc_now()),
-        Request.new("id", "GET", [], "body", DateTime.utc_now())
-      ]
-
-      assert %State{requests: ^requests} = State.set_requests(state, requests)
     end
   end
 
@@ -86,15 +62,6 @@ defmodule WexhookWeb.HomeLive.StateTest do
     end
   end
 
-  describe "get_requests/1" do
-    test "returns the requests in the state" do
-      state = State.new()
-      request = %{}
-
-      assert [^request] = State.get_requests(State.add_request(state, request))
-    end
-  end
-
   describe "get_share_url/1" do
     test "returns the share url" do
       url = @share_base_path
@@ -104,34 +71,21 @@ defmodule WexhookWeb.HomeLive.StateTest do
     end
   end
 
-  describe "get_request/2" do
-    test "returns the request with the given id" do
-      state = State.new()
-      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
-
-      assert ^request = State.get_request(State.add_request(state, request), "id")
-    end
-  end
-
   describe "set_response/2" do
-    test "sets the response for the given request" do
+    test "sets the response of the state" do
       state = State.new()
-      request = Request.new("id", "GET", [], "{}", DateTime.utc_now())
       response = %{}
 
-      assert %State{response: ^response} =
-               State.set_response(State.add_request(state, request), response)
+      assert %State{response: ^response} = State.set_response(state, response)
     end
   end
 
   describe "get_response/1" do
-    test "returns the response for the given request" do
+    test "returns the response of the state" do
       state = State.new()
-      request = Request.new("id", "GET", [], "body", DateTime.utc_now())
       response = %{}
 
-      assert ^response =
-               State.get_response(State.set_response(State.add_request(state, request), response))
+      assert ^response = State.get_response(State.set_response(state, response))
     end
   end
 end

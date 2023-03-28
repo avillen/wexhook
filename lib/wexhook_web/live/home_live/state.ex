@@ -3,16 +3,14 @@ defmodule WexhookWeb.HomeLive.State do
   The state of the home live view.
   """
 
-  alias Wexhook.{Request, Response}
+  alias Wexhook.Response
 
   @type public_path :: String.t()
   @type share_url :: String.t()
-  @type request :: Request.t()
   @type response :: Response.t()
 
   @type t :: %__MODULE__{
           public_path: public_path,
-          requests: [request],
           response: response,
           server_pid: pid() | nil,
           share_url: share_url
@@ -20,7 +18,6 @@ defmodule WexhookWeb.HomeLive.State do
 
   defstruct ~w(
     public_path
-    requests
     response
     server_pid
     share_url
@@ -35,7 +32,6 @@ defmodule WexhookWeb.HomeLive.State do
       server_pid: nil,
       public_path: "",
       share_url: "",
-      requests: [],
       response: Response.new()
     }
   end
@@ -50,19 +46,9 @@ defmodule WexhookWeb.HomeLive.State do
     %{state | public_path: URI.to_string(host_uri) <> @hook_base_path <> public_path}
   end
 
-  @spec add_request(t(), request) :: t()
-  def add_request(%__MODULE__{} = state, request) do
-    %{state | requests: [request | state.requests]}
-  end
-
   @spec set_share_url(t(), public_path, URI.t()) :: t()
   def set_share_url(%__MODULE__{} = state, public_path, host_uri) do
     %{state | share_url: URI.to_string(host_uri) <> @share_base_path <> public_path}
-  end
-
-  @spec set_requests(t(), [request]) :: t()
-  def set_requests(%__MODULE__{} = state, requests) do
-    %{state | requests: requests}
   end
 
   @spec get_server_pid(t()) :: pid() | nil
@@ -75,19 +61,9 @@ defmodule WexhookWeb.HomeLive.State do
     public_path
   end
 
-  @spec get_requests(t()) :: [request]
-  def get_requests(%__MODULE__{requests: requests}) do
-    requests
-  end
-
   @spec get_share_url(t()) :: share_url
   def get_share_url(%__MODULE__{share_url: share_url}) do
     share_url
-  end
-
-  @spec get_request(t(), String.t()) :: request | nil
-  def get_request(%__MODULE__{requests: requests}, id) do
-    Enum.find(requests, &(&1.id == id))
   end
 
   @spec set_response(t(), response) :: t()

@@ -89,9 +89,9 @@
       </div>
       <!-- Webhook List -->
       <div class="mt-7">
-        <ul>
-          <%= for request <- @state.requests do %>
-            <li class="rounded-md px-4 py-2 my-2 border border-gray-200">
+        <ul id="list-requests" phx-update="prepend">
+          <%= for request <- @requests do %>
+            <li id={request.id} class="rounded-md px-4 py-2 my-2 border border-gray-200">
               <HookCard.base request={request} />
             </li>
           <% end %>
