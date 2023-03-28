@@ -25,7 +25,7 @@ defmodule BenchmarkTest do
           "get_server_or_create" => fn servers_count ->
             Enum.map(1..servers_count, fn _ ->
               id = Strings.random_string()
-              {:ok, pid} = Wexhook.get_server_or_create(id)
+              pid = Wexhook.get_server_or_create(id)
 
               pid
             end)

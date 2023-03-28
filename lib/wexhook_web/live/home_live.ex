@@ -47,7 +47,7 @@ defmodule WexhookWeb.HomeLive do
 
   # Fetch server handler
   def handle_info({:fetch_server, id}, socket) do
-    {:ok, server_pid} = Wexhook.get_server_or_create(id)
+    server_pid = Wexhook.get_server_or_create(id)
 
     state = load_state(socket, server_pid, id)
 

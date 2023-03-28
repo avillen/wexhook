@@ -11,7 +11,7 @@ defmodule WexhookWeb.HookController do
   alias __MODULE__.Serializer
 
   def hook(conn, %{"id" => id}) do
-    {:ok, pid} = Wexhook.get_server_or_create(id)
+    pid = Wexhook.get_server_or_create(id)
     :ok = do_add_request(conn, pid)
 
     response = Wexhook.get_server_response(pid)

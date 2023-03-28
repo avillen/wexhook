@@ -118,19 +118,26 @@ defmodule WexhookTest do
 
   describe "get_server_or_create/1" do
     test "creates the server if it doesn't exists" do
-      assert {:ok, pid} =
-               Wexhook.get_server_or_create(
-                 "get_server_or_create_if_server_not_exists_on_success"
-               )
+      id = "get_server_or_create_if_server_not_exists_on_success"
 
-      assert pid ==
-               Wexhook.get_server_by_id("get_server_or_create_if_server_not_exists_on_success")
+      pid = Wexhook.get_server_or_create(id)
+
+      assert pid == Wexhook.get_server_by_id(id)
+    end
+
+    if Logger.level() in [:debug, :info] do
+      test "logs when the server doesn't exists and creates a new one" do
+        id = "logs_get_server_or_create_if_server_not_exists_on_success"
+
+        assert capture_log(fn -> Wexhook.get_server_or_create(id) end) =~
+                 "Created new server with id #{id}"
+      end
     end
 
     test "fetches the server if it exists" do
       {:ok, create_pid} = Wexhook.new_server("get_server_or_create_if_server_exists_on_success")
 
-      assert {:ok, server_pid} =
+      assert server_pid =
                Wexhook.get_server_or_create("get_server_or_create_if_server_exists_on_success")
 
       assert create_pid == server_pid

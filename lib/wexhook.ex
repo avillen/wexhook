@@ -85,15 +85,16 @@ defmodule Wexhook do
     ServersSupervisor.get_server_pid_by_id(id)
   end
 
-  @spec get_server_or_create(id) :: {:ok, pid} | {:error, term()}
+  @spec get_server_or_create(id) :: pid
   def get_server_or_create(id) do
-    with nil <- get_server_by_id(id),
-         {:error, reason} <- new_server(id) do
-      Logger.error("Failed to create server with id #{inspect(id)}: #{inspect(reason)}")
-      {:error, reason}
-    else
-      pid when is_pid(pid) -> {:ok, pid}
-      {:ok, pid} -> {:ok, pid}
+    case get_server_by_id(id) do
+      nil ->
+        {:ok, pid} = new_server(id)
+        Logger.info("Created new server with id #{id}")
+        pid
+
+      pid ->
+        pid
     end
   end
 
