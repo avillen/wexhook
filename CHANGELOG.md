@@ -1,7 +1,12 @@
 # Changelog
 
 ## Unreleased
+
+## 0.6.0 (2023-03-28)
+
+### Added
 - Add darkmode
+- Isolate fly.io Dockerfile as it requires ipv6 that causes problems in other systems
 
 ## 0.5.0 (2023-03-26)
 

@@ -3,10 +3,8 @@
     <div class="bg-gradient-to-r from-teal-400 to-cyan-500 transform -skew-y-2 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl absolute inset-0 shadow-lg">
     </div>
     <div class="sm:rounded-3xl sm:p-20 dark:bg-gray-800 relative px-4 py-10 bg-white shadow-lg">
-
       <!-- Dark mode toggle -->
       <DarkmodeToggle.base />
-
       <!-- URL Section -->
       <div class="mt-4">
         <h2 class="dark:text-gray-300 text-lg font-semibold text-gray-900">Webhook URL</h2>
@@ -40,7 +38,10 @@
 
         <form id="save_response" class="mt-4" phx-submit="update_response">
           <div>
-            <label for="http-code" class="dark:text-gray-300 block text-sm font-medium text-gray-700">
+            <label
+              for="http-code"
+              class="dark:text-gray-300 block text-sm font-medium text-gray-700"
+            >
               HTTP Code
             </label>
             <input
@@ -54,7 +55,10 @@
             />
           </div>
           <div class="mt-4">
-            <label for="response-body" class="dark:text-gray-300 block text-sm font-medium text-gray-700">
+            <label
+              for="response-body"
+              class="dark:text-gray-300 block text-sm font-medium text-gray-700"
+            >
               Response Body
             </label>
             <textarea

@@ -2,7 +2,8 @@
 
 Wexhook is a web server written in Elixir with LiveView, which allows you to simulate requests to an external service that expects to receive webhooks. With Wexhook, you can test your webhook integrations without having to send real requests to an external service. In addition, Wexhook provides a web interface for viewing and inspecting incoming webhook requests. Try it on https://wexhook.fly.dev/
 
-![demo](img/demo.png)
+![light](img/light.png)
+![dark](img/dark.png)
 
 
 ### Installation
