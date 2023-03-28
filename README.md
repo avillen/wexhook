@@ -36,7 +36,7 @@ Wexhook provides an endpoint for receiving webhook requests at `/wexhook/hook/:i
 There are a couple of limitations to be aware of when using Wexhook:
 
 - Wexhook requests are stored in memory and will be lost if the server is restarted.
-- Wexhook requests are stored in the LiveView state without temporary assigns, which can have an impact on memory usage.
+- The requests are stored in memory and they are never cleaned until the service gets restarted.
 - If you want to deploy Wexhook under a proxy like NGINX and expose the app under a custom path like `https://domain.com/app_1`, this won't be possible. The app is exposed in both `/` and `/wexhook` paths, so you can route to those paths to make Wexhook accessible.
 
 
