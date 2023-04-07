@@ -81,7 +81,13 @@ defmodule Wexhook.MixProject do
       setup: ["deps.get", "assets.setup", "assets.build"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      "dashboard.export": [
+        "prom_ex.dashboard.export --dashboard application.json -f dashboards/application.json",
+        "prom_ex.dashboard.export --dashboard beam.json -f dashboards/beam.json",
+        "prom_ex.dashboard.export --dashboard phoenix.json -f dashboards/phoenix.json",
+        "prom_ex.dashboard.export --dashboard phoenix_live_view.json -f dashboards/phoenix_live_view.json"
+      ]
     ]
   end
 end
