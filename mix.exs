@@ -66,7 +66,8 @@ defmodule Wexhook.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:benchee, "~> 1.0", only: [:dev, :test]},
-      {:benchee_html, "~> 1.0", only: [:dev, :test]}
+      {:benchee_html, "~> 1.0", only: [:dev, :test]},
+      {:k6, "~> 0.2.0"}
     ]
   end
 
