@@ -24,7 +24,7 @@ defmodule WexhookWeb.HomeLive do
 
     socket = update_socket(socket, State.new(), [])
 
-    {:ok, socket, temporary_assigns: [requests: []]}
+    {:ok, socket}
   end
 
   def mount(_params, _session, socket) do
@@ -34,7 +34,7 @@ defmodule WexhookWeb.HomeLive do
 
     socket = update_socket(socket, State.new(), [])
 
-    {:ok, socket, temporary_assigns: [requests: []]}
+    {:ok, socket}
   end
 
   # Create server handler
@@ -57,7 +57,12 @@ defmodule WexhookWeb.HomeLive do
 
     Wexhook.subscribe_to_server(server_pid)
 
-    socket = update_socket(socket, state, Wexhook.get_requests(server_pid))
+    socket = assign(socket, :state, state)
+
+    socket =
+      Enum.reduce(Wexhook.get_requests(server_pid), socket, fn request, socket ->
+        stream_insert(socket, :requests, request, at: 0)
+      end)
 
     {:noreply, socket}
   end
@@ -68,7 +73,8 @@ defmodule WexhookWeb.HomeLive do
 
     socket =
       socket
-      |> update_socket(state, [request])
+      |> assign(:state, state)
+      |> stream_insert(:requests, request, at: 0)
       |> push_event("request_received", %{})
 
     {:noreply, socket}
@@ -98,7 +104,7 @@ defmodule WexhookWeb.HomeLive do
 
   defp update_socket(socket, state, requests) do
     socket
-    |> assign(:requests, requests)
+    |> stream(:requests, requests)
     |> assign(:state, state)
   end
 
