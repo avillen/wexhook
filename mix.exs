@@ -59,7 +59,7 @@ defmodule Wexhook.MixProject do
       {:jason, "~> 1.2"},
       {:bandit, "~> 0.7.7"},
       {:timex, "~> 3.7.11"},
-      {:prom_ex, git: "https://github.com/glennr/prom_ex", branch: "gr/bump-plug-2.6"},
+      {:prom_ex, "~> 1.8.0"},
 
       # Testing
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
