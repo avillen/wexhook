@@ -14,8 +14,9 @@ defmodule Wexhook.Server.InMemory do
   @impl Wexhook.ServerRepo
   def start_link(opts \\ []) do
     id = Keyword.fetch!(opts, :id)
+    harakiri_timeout = Keyword.fetch!(opts, :kill_after)
 
-    GenServer.start_link(__MODULE__, id, opts)
+    GenServer.start_link(__MODULE__, {id, harakiri_timeout}, opts)
   end
 
   @impl Wexhook.ServerRepo
@@ -64,58 +65,63 @@ defmodule Wexhook.Server.InMemory do
   end
 
   @impl true
-  def init(id) do
-    {:ok, Server.new(id)}
+  def init({id, harakiri_timeout}) do
+    {:ok, Server.new(id, harakiri_timeout), harakiri_timeout}
   end
 
   @impl true
   def handle_cast({:push_request, request}, state) do
-    {:noreply, Server.add_request(state, request)}
+    {:noreply, Server.add_request(state, request), Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call(:get_requests, _from, state) do
-    {:reply, Server.get_requests(state), state}
+    {:reply, Server.get_requests(state), state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call({:get_request, id}, _from, state) do
-    {:reply, Server.get_request(state, id), state}
+    {:reply, Server.get_request(state, id), state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call({:delete_request, id}, _from, state) do
     state = Server.delete_request(state, id)
 
-    {:reply, state.requests, state}
+    {:reply, state.requests, state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call(:delete_requests, _from, state) do
     state = Server.delete_requests(state)
 
-    {:reply, state.requests, state}
+    {:reply, state.requests, state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call(:get_request_count, _from, state) do
-    {:reply, Server.get_request_count(state), state}
+    {:reply, Server.get_request_count(state), state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call(:get_id, _from, state) do
-    {:reply, Server.get_id(state), state}
+    {:reply, Server.get_id(state), state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call(:get_response, _from, state) do
-    {:reply, Server.get_response(state), state}
+    {:reply, Server.get_response(state), state, Server.get_hari_timeout(state)}
   end
 
   @impl true
   def handle_call({:set_response, response}, _from, state) do
     state = Server.set_response(state, response)
 
-    {:reply, state.response, state}
+    {:reply, state.response, state, Server.get_hari_timeout(state)}
+  end
+
+  @impl true
+  def handle_info(:timeout, state) do
+    {:stop, :normal, state}
   end
 end

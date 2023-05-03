@@ -14,12 +14,21 @@ defmodule Wexhook do
 
   require Logger
 
+  @hibernate_after Application.compile_env(:wexhook, Wexhook)[:hibernate_after]
+  @kill_after Application.compile_env(:wexhook, Wexhook)[:kill_after]
+
   @type id :: String.t()
   @type request :: Request.t()
 
   @spec new_server(id) :: {:ok, pid} | {:error, term()}
   def new_server(id \\ Strings.random_string()) do
-    case ServersSupervisor.start_server(id) do
+    opts =
+      []
+      |> Keyword.put(:hibernate_after, @hibernate_after)
+      |> Keyword.put(:kill_after, @kill_after)
+      |> Enum.map(fn {key, value} -> if value != nil, do: {key, value} end)
+
+    case ServersSupervisor.start_server(id, opts) do
       {:ok, pid} ->
         {:ok, pid}
 

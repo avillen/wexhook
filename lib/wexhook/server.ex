@@ -11,25 +11,29 @@ defmodule Wexhook.Server do
   @type id :: String.t()
   @type request :: Request.t()
   @type response :: Response.t()
+  @type harakiri_timeout :: non_neg_integer()
 
   @type t :: %__MODULE__{
           id: id,
           requests: [request],
-          response: response
+          response: response,
+          harakiri_timeout: harakiri_timeout
         }
 
   defstruct ~w(
     id
     requests
     response
+    harakiri_timeout
   )a
 
-  @spec new(id) :: t
-  def new(id) do
+  @spec new(id, harakiri_timeout) :: t
+  def new(id, harakiri_timeout) do
     %__MODULE__{
       requests: [],
       id: id,
-      response: Response.new()
+      response: Response.new(),
+      harakiri_timeout: harakiri_timeout
     }
   end
 
@@ -88,5 +92,10 @@ defmodule Wexhook.Server do
   @spec get_response(t) :: response
   def get_response(server) do
     server.response
+  end
+
+  @spec get_hari_timeout(t) :: harakiri_timeout
+  def get_hari_timeout(server) do
+    server.harakiri_timeout
   end
 end

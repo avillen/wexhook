@@ -10,15 +10,30 @@ defmodule Wexhook.ServersSupervisor do
 
   use DynamicSupervisor
 
+  @hibernate_after 5_000
+  @kill_after :infinity
+
   @spec start_link(Keyword.t()) :: Supervisor.on_start()
   def start_link(init_args \\ []) do
     DynamicSupervisor.start_link(__MODULE__, init_args, [])
   end
 
-  @spec start_server(Server.id()) :: DynamicSupervisor.on_start_child()
-  def start_server(id) do
+  # kill_after: kills the child if it doesn't receive any message in the given time.
+  #             The time will be restarted when any operation is performed on the child.
+  #             :infinity by default.
+  #
+  # hibernate_after: hibernates the child if it doesn't receive any message in the given time.
+  @spec start_server(Server.id(), keyword()) :: DynamicSupervisor.on_start_child()
+  def start_server(id, opts \\ []) do
     via = {:via, Registry, {Wexhook.Registry, id}}
-    spec = {ServerRepo, id: id, name: via}
+
+    hibernate_after = Keyword.get(opts, :hibernate_after, @hibernate_after)
+    kill_after = Keyword.get(opts, :kill_after, @kill_after)
+
+    spec = {
+      ServerRepo,
+      id: id, name: via, hibernate_after: hibernate_after, kill_after: kill_after
+    }
 
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
