@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+
+## 0.7.0 (2023-05-03)
+
+### Changed
 - Use of streams to store the requests in the LV
 
 ## 0.6.1 (2023-03-28)
