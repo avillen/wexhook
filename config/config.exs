@@ -29,7 +29,8 @@ config :wexhook, WexhookWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Wexhook.PubSub,
-  live_view: [signing_salt: "FrcZ8zFB"]
+  live_view: [signing_salt: "FrcZ8zFB"],
+  adapter: Bandit.PhoenixAdapter
 
 # Configure esbuild (the version is required)
 config :esbuild,

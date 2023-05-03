@@ -45,7 +45,7 @@ defmodule Wexhook.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.1"},
+      {:phoenix, "~> 1.7.2"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.16"},
@@ -57,7 +57,7 @@ defmodule Wexhook.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
+      {:bandit, "~> 0.7.7"},
       {:timex, "~> 3.7.11"},
       {:prom_ex, git: "https://github.com/glennr/prom_ex", branch: "gr/bump-plug-2.6"},
 
